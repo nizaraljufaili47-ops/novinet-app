@@ -21,6 +21,7 @@
     --warn-dim: #4A3C24;
     --danger: #FB7A85;
     --danger-dim: #4A2530;
+    --violet: #A78BFA;
     --radius: 3px;
   }
 
@@ -36,7 +37,6 @@
 
   .mono{ font-family:'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: isolate; }
 
-  /* subtle grid texture like network diagnostic equipment */
   .bg-grid{
     position: fixed; inset:0; z-index:0; pointer-events:none;
     background-image:
@@ -61,14 +61,18 @@
   }
   .brand{ display:flex; align-items:center; gap:10px; }
   .brand-mark{
-    width: 30px; height: 30px; border: 1.5px solid var(--accent);
-    border-radius: 50%; position: relative; flex-shrink:0;
+    width: 32px; height: 32px; position: relative; flex-shrink:0;
   }
-  .brand-mark::after{
-    content:''; position:absolute; inset:7px;
-    background: var(--accent); border-radius:50%;
-    box-shadow: 0 0 10px var(--accent);
+  .brand-mark svg{ width:100%; height:100%; }
+  .brand-mark .ring{ fill:none; stroke: var(--accent-dim); stroke-width: 1.5; }
+  .brand-mark .ring-sweep{
+    fill:none; stroke: var(--accent); stroke-width: 1.5;
+    stroke-dasharray: 20 80; stroke-linecap: round;
+    transform-origin: center;
+    animation: sweep 3.2s linear infinite;
   }
+  @keyframes sweep{ to{ transform: rotate(360deg); } }
+  .brand-mark .core{ fill: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); }
   .brand-name{ font-weight:700; font-size: 17px; letter-spacing: 0.2px; }
   .brand-sub{ font-size: 11px; color: var(--text-muted); font-family:'IBM Plex Mono',monospace; direction: ltr; }
   .tag{
@@ -77,9 +81,9 @@
     padding: 4px 9px; font-family:'IBM Plex Mono',monospace; direction: ltr;
   }
 
-  /* ---------- HERO / IDLE STATE ---------- */
   .view{ display:none; }
-  .view.active{ display:block; }
+  .view.active{ display:block; animation: viewIn .35s ease; }
+  @keyframes viewIn{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform:none; } }
 
   .monitor{
     border: 1px solid var(--line);
@@ -93,9 +97,14 @@
 
   .wave{ width:100%; height: 90px; display:block; }
   .wave path{ fill:none; stroke: var(--accent); stroke-width:1.6; opacity: 0.75; }
-  .wave .sweep{
-    stroke: var(--accent); stroke-width: 1px; opacity: 0.5;
-  }
+
+  /* live chart shown during scanning — real plotted samples, not decoration */
+  .live-chart{ width:100%; height:110px; display:block; }
+  .live-chart .grid-line{ stroke: var(--line-soft); stroke-width:1; }
+  .live-chart .plot{ fill:none; stroke: var(--accent); stroke-width:2; stroke-linejoin:round; stroke-linecap:round; }
+  .live-chart .fill{ fill: url(#chartFill); opacity:0.5; }
+  .live-chart .dot-current{ fill: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); }
+  .live-chart-label{ display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-top:8px; font-family:'IBM Plex Mono',monospace; direction:ltr; }
 
   h1{
     font-size: 24px; font-weight:700; line-height:1.35;
@@ -132,12 +141,12 @@
     background: var(--line); flex-shrink:0;
     transition: background .2s ease, box-shadow .2s ease;
   }
-  .check-item.done .dot{ background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  .check-item.active .dot{ background: var(--warn); box-shadow: 0 0 6px var(--warn); animation: pulse 1s infinite; }
+  .check-item.done .dot{ background: var(--accent); box-shadow: 0 0 6px var(--accent); animation:none; }
   .check-item.done{ color: var(--text); }
   .check-item .val{ margin-inline-start:auto; font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:12.5px; color:var(--accent); opacity:0; transition: opacity .2s ease; }
   .check-item.done .val{ opacity:1; }
 
-  /* ---------- RESULTS ---------- */
   .section-label{
     font-size: 12px; color: var(--text-muted); margin-bottom: 10px;
     font-weight:600;
@@ -146,7 +155,7 @@
   .compare{
     display:grid; grid-template-columns: 1fr 1fr; gap:1px;
     background: var(--line); border:1px solid var(--line);
-    border-radius: var(--radius); overflow:hidden; margin-bottom: 22px;
+    border-radius: var(--radius); overflow:hidden; margin-bottom: 16px;
   }
   .compare-col{ background: var(--surface); padding: 16px; }
   .compare-col h3{ font-size:12.5px; color: var(--text-muted); margin-bottom:14px; font-weight:600; }
@@ -156,6 +165,25 @@
   .metric-val{ font-family:'IBM Plex Mono',monospace; direction:ltr; font-size: 19px; font-weight:600; }
   .metric-val.bad{ color: var(--danger); }
   .metric-val.good{ color: var(--accent); }
+
+  .loc-card{
+    border:1px solid var(--line); border-radius: var(--radius);
+    background: var(--surface); padding:14px 16px; margin-bottom:16px;
+    font-size:13px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .loc-card .loc-icon{ color: var(--violet); font-family:'IBM Plex Mono',monospace; font-size:16px; }
+  .loc-card b{ font-family:'IBM Plex Mono',monospace; direction:ltr; unicode-bidi:isolate; }
+  .loc-arrow{ color: var(--text-muted); }
+  .loc-badge{ margin-inline-start:auto; font-size:11.5px; padding:3px 9px; border-radius: 20px; }
+  .loc-badge.ok{ background: var(--accent-dim); color: var(--accent); }
+  .loc-badge.warn{ background: var(--warn-dim); color: var(--warn); }
+
+  .packet-loss{
+    border:1px solid var(--line); border-radius: var(--radius);
+    background: var(--surface); padding:14px 16px; margin-bottom:22px;
+    font-size:13px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .packet-loss .note{ font-size:11px; color:var(--text-muted); }
 
   .diagnosis{
     border: 1px solid var(--danger-dim);
@@ -185,13 +213,17 @@
     border-inline-start: 2px solid var(--accent);
     background: var(--surface);
     border-radius: var(--radius);
-    padding: 16px 18px; margin-bottom: 22px;
+    padding: 16px 18px; margin-bottom: 10px;
     font-size: 13.8px; color: var(--text);
+    transition: border-color .3s ease;
   }
+  .ai-box.live{ border-inline-start-color: var(--violet); }
   .ai-box .who{ font-size: 11px; color: var(--accent); margin-bottom:8px; font-family:'IBM Plex Mono',monospace; direction:ltr; display:flex; align-items:center; gap:6px; }
+  .ai-box.live .who{ color: var(--violet); }
   .ai-box .who .dot{ background: var(--accent); box-shadow: 0 0 5px var(--accent); }
+  .ai-box.live .who .dot{ background: var(--violet); box-shadow: 0 0 5px var(--violet); animation: pulse 1.2s infinite; }
+  .ai-note{ font-size:11.5px; color: var(--text-muted); margin-bottom:22px; }
 
-  /* ---------- APP COMPAT ---------- */
   .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 18px; }
   .chip{
     border:1px solid var(--line); background: var(--surface);
@@ -212,6 +244,23 @@
   .status-card .txt strong{ display:block; font-size:14px; margin-bottom:2px; }
   .status-card .txt span{ font-size:12.5px; color: var(--text-muted); }
 
+  /* history */
+  .history{ margin-top: 34px; }
+  .history-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .history-list{ border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; }
+  .history-item{
+    display:flex; align-items:center; gap:12px; padding:12px 14px;
+    border-bottom:1px solid var(--line-soft); background: var(--surface);
+    font-size:12.5px;
+  }
+  .history-item:last-child{ border-bottom:none; }
+  .history-item .h-time{ color:var(--text-muted); font-family:'IBM Plex Mono',monospace; direction:ltr; flex-shrink:0; width:64px; }
+  .history-item .h-metrics{ font-family:'IBM Plex Mono',monospace; direction:ltr; color:var(--text); flex-shrink:0; }
+  .history-item .h-diag{ color: var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+  .history-empty{ font-size:12.5px; color:var(--text-muted); padding:16px; border:1px dashed var(--line); border-radius:var(--radius); text-align:center; }
+  .link-btn{ background:none; border:none; color:var(--text-muted); font-family:inherit; font-size:11.5px; cursor:pointer; text-decoration:underline; }
+  .link-btn:hover{ color: var(--danger); }
+
   footer{
     margin-top: 30px; padding-top: 18px; border-top:1px solid var(--line);
     font-size: 11.5px; color: var(--text-muted); display:flex; justify-content:space-between;
@@ -231,18 +280,24 @@
 
   <header>
     <div class="brand">
-      <div class="brand-mark"></div>
+      <div class="brand-mark">
+        <svg viewBox="0 0 32 32">
+          <circle class="ring" cx="16" cy="16" r="13"/>
+          <circle class="ring-sweep" cx="16" cy="16" r="13"/>
+          <circle class="core" cx="16" cy="16" r="4"/>
+        </svg>
+      </div>
       <div>
         <div class="brand-name">NoviNet</div>
         <div class="brand-sub">network.diagnostics</div>
       </div>
     </div>
-    <div class="tag">PROTOTYPE v0.2</div>
+    <div class="tag">LIVE v1.0</div>
   </header>
 
   <div id="fileWarning" style="display:none; background:#4A2530; border:1px solid var(--danger); border-radius:var(--radius); padding:14px 16px; margin-bottom:20px; font-size:13px; line-height:1.7;">
     ⚠ فتحتي الملف مباشرة (file://) — أغلب المتصفحات تمنع طلبات الشبكة بهذي الطريقة بصمت.
-    شغّلي سيرفر محلي بسيط بدل ما تفتحينه بضغطتين (التعليمات بآخر الرد).
+    افتحي الموقع المنشور على الإنترنت بدل الملف المحلي.
   </div>
 
   <!-- VIEW 1: IDLE -->
@@ -253,18 +308,42 @@
       </svg>
     </div>
     <h1>شبكتك تشتغل غريب بعد ما شغّلت VPN؟</h1>
-    <p class="lede">قياس حقيقي من جهازك: السرعة، زمن الاستجابة، والـDNS — قبل وبعد تفعيل الـVPN. مو أرقام تخمينية.</p>
+    <p class="lede">قياس حقيقي من جهازك: السرعة، زمن الاستجابة، الـDNS، فقدان الحزم، وحتى تغيّر موقعك الظاهري — قبل وبعد تفعيل الـVPN. مو أرقام تخمينية.</p>
     <div class="btn-row">
       <button class="btn" onclick="runMeasurement('before')">ابدأ القياس (قبل الـVPN)</button>
+    </div>
+
+    <div class="history">
+      <div class="history-head">
+        <div class="section-label" style="margin-bottom:0;">الفحوصات السابقة</div>
+        <button class="link-btn" onclick="clearHistory()">مسح السجل</button>
+      </div>
+      <div id="historyList"></div>
     </div>
   </div>
 
   <!-- VIEW 2: SCANNING -->
   <div class="view" id="view-scan">
     <div class="monitor">
-      <svg class="wave" viewBox="0 0 600 90" preserveAspectRatio="none">
-        <path id="waveScan" d="M0,45 L600,45"/>
+      <svg class="live-chart" id="liveChartSvg" viewBox="0 0 600 110" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#5EEAD4" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#5EEAD4" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line class="grid-line" x1="0" y1="27" x2="600" y2="27"/>
+        <line class="grid-line" x1="0" y1="55" x2="600" y2="55"/>
+        <line class="grid-line" x1="0" y1="83" x2="600" y2="83"/>
+        <polygon class="fill" id="chartFillPoly" points=""/>
+        <polyline class="plot" id="chartLine" points=""/>
+        <circle class="dot-current" id="chartDot" cx="0" cy="55" r="4" style="display:none"/>
       </svg>
+      <div class="live-chart-label">
+        <span id="chartMin">— ms</span>
+        <span id="chartLive">قياس Ping حي</span>
+        <span id="chartMax">— ms</span>
+      </div>
     </div>
     <div class="section-label" id="scanLabel">جاري القياس الحقيقي...</div>
     <div class="checklist" id="checklist">
@@ -272,6 +351,8 @@
       <div class="check-item" data-key="jitter"><div class="dot"></div><span>ثبات الاتصال (Jitter)</span><span class="val"></span></div>
       <div class="check-item" data-key="dns"><div class="dot"></div><span>زمن DNS lookup</span><span class="val"></span></div>
       <div class="check-item" data-key="speed"><div class="dot"></div><span>سرعة التحميل الفعلية</span><span class="val"></span></div>
+      <div class="check-item" data-key="loss"><div class="dot"></div><span>تقدير فقدان الحزم</span><span class="val"></span></div>
+      <div class="check-item" data-key="loc"><div class="dot"></div><span>الموقع الظاهري (IP)</span><span class="val"></span></div>
     </div>
   </div>
 
@@ -327,19 +408,36 @@
       </div>
     </div>
 
+    <div class="loc-card" id="locCard" style="display:none;">
+      <span class="loc-icon">◈</span>
+      <span>الموقع الظاهري: <b id="locBefore">—</b></span>
+      <span class="loc-arrow">←</span>
+      <b id="locAfter">—</b>
+      <span class="loc-badge" id="locBadge">—</span>
+    </div>
+
+    <div class="packet-loss">
+      <div>
+        <div class="metric-label">فقدان الحزم (بعد الـVPN)</div>
+        <div class="metric-val mono" id="lossVal">—</div>
+      </div>
+      <div class="note">تقدير عبر HTTP وليس ICMP الحقيقي</div>
+    </div>
+
     <div class="diagnosis">
       <div class="diagnosis-head">
         <div class="pulse-dot"></div>
         <div class="diagnosis-title" id="diagTitle">—</div>
       </div>
       <div class="diagnosis-body" id="diagBody">—</div>
-      <div class="diagnosis-impact">النتيجة: انخفاض في السرعة بنسبة <b id="dropPct">—</b>.</div>
+      <div class="diagnosis-impact">النتيجة: تغيّر في السرعة بنسبة <b id="dropPct">—</b>.</div>
     </div>
 
-    <div class="ai-box">
-      <div class="who"><div class="dot"></div>SMART ANALYSIS (rule-based — v1)</div>
+    <div class="ai-box" id="aiBox">
+      <div class="who" id="aiWho"><div class="dot"></div>SMART ANALYSIS</div>
       <span id="aiText">—</span>
     </div>
+    <div class="ai-note" id="aiNote"></div>
 
     <div class="btn-row" style="margin-bottom:30px;">
       <button class="btn" onclick="alert('هذا نموذج أولي — الإصلاح التلقائي جزء من مرحلة التطوير القادمة')">إصلاح تلقائي</button>
@@ -373,7 +471,7 @@
   </div>
 
   <footer>
-    <span>v0.2 — real browser measurement</span>
+    <span>v1.0 — real browser measurement</span>
     <span id="clock"></span>
   </footer>
 
@@ -391,25 +489,28 @@ function showView(id){
 // Every number below is a genuine browser measurement — nothing here is random.
 
 const CF_BASE = 'https://speed.cloudflare.com/__down';
+const GEO_URL = 'https://get.geojs.io/v1/ip/geo.json';
 
-async function measureLatencyAndJitter(samples = 5) {
+async function measureLatencyAndJitter(samples = 5, onSample) {
   const times = [];
   for (let i = 0; i < samples; i++) {
     const t0 = performance.now();
     await fetch(`${CF_BASE}?bytes=1000&_=${Date.now()}_${i}`, { cache: 'no-store' });
-    times.push(performance.now() - t0);
+    const dt = performance.now() - t0;
+    times.push(dt);
+    if (onSample) onSample(dt, i, samples);
   }
-  times.sort((a, b) => a - b);
-  const median = times[Math.floor(times.length / 2)];
-  const jitter = times[times.length - 1] - times[0];
-  return { latency: median, jitter };
+  const sorted = [...times].sort((a, b) => a - b);
+  const median = sorted[Math.floor(sorted.length / 2)];
+  const jitter = sorted[sorted.length - 1] - sorted[0];
+  return { latency: median, jitter, samples: times };
 }
 
 async function measureDns() {
   performance.clearResourceTimings();
   const url = `${CF_BASE}?bytes=1000&_=${Date.now()}_dns`;
   await fetch(url, { cache: 'no-store' });
-  await new Promise((r) => setTimeout(r, 60)); // let the timing entry register
+  await new Promise((r) => setTimeout(r, 60));
   const entries = performance.getEntriesByType('resource').filter(e => e.name.includes('speed.cloudflare.com'));
   if (!entries.length) return 0;
   const e = entries[entries.length - 1];
@@ -425,31 +526,106 @@ async function measureDownloadSpeed(bytes = 3_000_000) {
   return (bytes * 8 / 1_000_000) / seconds; // Mbps
 }
 
+// approximate packet loss via short-timeout HTTP requests (not true ICMP ping,
+// but a real, honestly-labeled signal of dropped/failed requests on the path)
+async function measurePacketLoss(attempts = 8) {
+  let lost = 0;
+  for (let i = 0; i < attempts; i++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 900);
+    try {
+      await fetch(`${CF_BASE}?bytes=200&_=${Date.now()}_pl${i}`, { cache: 'no-store', signal: controller.signal });
+    } catch (e) {
+      lost++;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  return Math.round((lost / attempts) * 100);
+}
+
+// real IP / approximate location via a free, CORS-enabled geolocation API
+async function getLocation() {
+  try {
+    const r = await fetch(`${GEO_URL}?_=${Date.now()}`, { cache: 'no-store' });
+    const d = await r.json();
+    return { ip: d.ip || '—', country: d.country || '—', city: d.city || '' };
+  } catch (e) {
+    return null;
+  }
+}
+
 let measurements = { before: null, after: null };
+
+// ---- live chart during scan (plots real latency samples as they arrive) ----
+function resetChart() {
+  document.getElementById('chartLine').setAttribute('points', '');
+  document.getElementById('chartFillPoly').setAttribute('points', '');
+  document.getElementById('chartDot').style.display = 'none';
+  document.getElementById('chartMin').textContent = '— ms';
+  document.getElementById('chartMax').textContent = '— ms';
+}
+
+function drawChart(samples) {
+  const w = 600, h = 110, pad = 10;
+  const min = Math.min(...samples);
+  const max = Math.max(...samples);
+  const range = Math.max(1, max - min);
+  const stepX = samples.length > 1 ? (w - pad * 2) / (samples.length - 1) : 0;
+  const pts = samples.map((v, i) => {
+    const x = pad + i * stepX;
+    const y = h - pad - ((v - min) / range) * (h - pad * 2);
+    return [x, y];
+  });
+  const line = pts.map(p => p.join(',')).join(' ');
+  const fill = `${pad},${h} ` + line + ` ${pts[pts.length - 1][0]},${h}`;
+  document.getElementById('chartLine').setAttribute('points', line);
+  document.getElementById('chartFillPoly').setAttribute('points', fill);
+  const dot = document.getElementById('chartDot');
+  dot.style.display = 'block';
+  dot.setAttribute('cx', pts[pts.length - 1][0]);
+  dot.setAttribute('cy', pts[pts.length - 1][1]);
+  document.getElementById('chartMin').textContent = min.toFixed(0) + ' ms';
+  document.getElementById('chartMax').textContent = max.toFixed(0) + ' ms';
+}
 
 async function runMeasurement(phase) {
   showView('view-scan');
+  resetChart();
   document.getElementById('scanLabel').textContent =
     phase === 'before' ? 'جاري القياس الحقيقي (قبل الـVPN)...' : 'جاري القياس الحقيقي (بعد الـVPN)...';
 
   const items = document.querySelectorAll('#checklist .check-item');
-  items.forEach(i => { i.classList.remove('done'); i.querySelector('.val').textContent = ''; });
+  items.forEach(i => { i.classList.remove('done', 'active'); i.querySelector('.val').textContent = ''; });
+  const setActive = (key) => document.querySelector(`.check-item[data-key="${key}"]`).classList.add('active');
 
   try {
-    // 1) latency + jitter
-    const { latency, jitter } = await measureLatencyAndJitter();
+    const runningSamples = [];
+    setActive('latency'); setActive('jitter');
+    const { latency, jitter } = await measureLatencyAndJitter(5, (dt) => {
+      runningSamples.push(dt);
+      drawChart(runningSamples);
+    });
     markDone('latency', latency.toFixed(0) + ' ms');
     markDone('jitter', jitter.toFixed(0) + ' ms');
 
-    // 2) DNS
+    setActive('dns');
     const dns = await measureDns();
     markDone('dns', dns > 0 ? dns.toFixed(0) + ' ms' : '~0 ms (اتصال معاد استخدامه)');
 
-    // 3) download speed (heaviest — runs last)
+    setActive('speed');
     const speed = await measureDownloadSpeed();
     markDone('speed', speed.toFixed(1) + ' Mbps');
 
-    measurements[phase] = { latency, jitter, dns, speed };
+    setActive('loss');
+    const loss = await measurePacketLoss();
+    markDone('loss', loss + '%');
+
+    setActive('loc');
+    const location = await getLocation();
+    markDone('loc', location ? (location.city ? `${location.city}, ${location.country}` : location.country) : 'تعذر الجلب');
+
+    measurements[phase] = { latency, jitter, dns, speed, loss, location };
 
     await new Promise(r => setTimeout(r, 400));
 
@@ -461,13 +637,14 @@ async function runMeasurement(phase) {
   } catch (err) {
     document.getElementById('scanLabel').innerHTML =
       '⚠ خطأ فعلي: <span class="mono" style="color:var(--danger)">' + (err.message || err) + '</span><br>' +
-      '<span style="font-size:12px">لو الخطأ يذكر CORS أو Failed to fetch، غالبًا لازم تشغلي الملف عبر سيرفر محلي مو بفتحه مباشرة (شوفي التعليمات تحت).</span>';
+      '<span style="font-size:12px">لو الخطأ يذكر CORS أو Failed to fetch، غالبًا لازم تفتحي الموقع المنشور مو ملف محلي.</span>';
     console.error(err);
   }
 }
 
 function markDone(key, text) {
   const item = document.querySelector(`.check-item[data-key="${key}"]`);
+  item.classList.remove('active');
   item.classList.add('done');
   item.querySelector('.val').textContent = text;
 }
@@ -482,19 +659,45 @@ function buildResults() {
   document.getElementById('afterPing').textContent = a.latency.toFixed(0) + ' ms';
   document.getElementById('beforeDns').textContent = b.dns > 0 ? b.dns.toFixed(0) + ' ms' : '~0 ms';
   document.getElementById('afterDns').textContent = a.dns > 0 ? a.dns.toFixed(0) + ' ms' : '~0 ms';
+  document.getElementById('lossVal').textContent = a.loss + '%';
 
-  const speedDropPct = Math.max(0, ((b.speed - a.speed) / b.speed) * 100);
-  const latencyIncreasePct = ((a.latency - b.latency) / b.latency) * 100;
+  // location comparison card
+  const locCard = document.getElementById('locCard');
+  if (b.location && a.location) {
+    locCard.style.display = 'flex';
+    document.getElementById('locBefore').textContent = b.location.city ? `${b.location.city}, ${b.location.country}` : b.location.country;
+    document.getElementById('locAfter').textContent = a.location.city ? `${a.location.city}, ${a.location.country}` : a.location.country;
+    const changed = b.location.ip !== a.location.ip || b.location.country !== a.location.country;
+    const badge = document.getElementById('locBadge');
+    if (changed) {
+      badge.textContent = 'تغيّر ✓'; badge.className = 'loc-badge ok';
+    } else {
+      badge.textContent = 'لم يتغيّر ⚠'; badge.className = 'loc-badge warn';
+    }
+  } else {
+    locCard.style.display = 'none';
+  }
+
+  const speedChangePct = ((a.speed - b.speed) / b.speed) * 100;
+  const speedDropPct = Math.max(0, -speedChangePct);
+  const speedImprovePct = Math.max(0, speedChangePct);
+  const latencyChangePct = ((a.latency - b.latency) / b.latency) * 100;
   const dnsIncrease = a.dns - b.dns;
 
-  document.getElementById('dropPct').textContent = speedDropPct.toFixed(0) + '%';
+  document.getElementById('dropPct').textContent =
+    (speedChangePct >= 0 ? '+' : '-') + Math.abs(speedChangePct).toFixed(0) + '%';
 
-  // ---- rule-based diagnosis engine (real numbers in, real logic out) ----
   let title, body;
-  if (dnsIncrease > 15 && a.dns > 20) {
+  if (speedImprovePct > 15 || latencyChangePct < -20) {
+    title = 'الـVPN حسّن أداء شبكتك';
+    body = 'الأرقام بعد تفعيل الـVPN أفضل من قبله — مؤشر إن مسار الشبكة العادي عندك فيه ازدحام أو تقييد من مزوّد الخدمة، والـVPN يتجاوزه بمسار أفضل.';
+  } else if (a.loss > 15) {
+    title = 'فقدان بيانات ملحوظ بعد تفعيل الـVPN';
+    body = 'نسبة الحزم المفقودة ارتفعت بشكل واضح، وهذا يفسر أي تقطيع أو بطء تحسّينه أثناء الاتصال — جرّبي تبديل سيرفر الـVPN.';
+  } else if (dnsIncrease > 15 && a.dns > 20) {
     title = 'تعارض محتمل في إعدادات DNS';
     body = 'زمن الـDNS lookup زاد بشكل واضح بعد تفعيل الـVPN، وهذا مؤشر على إن السيرفر يستخدم DNS بطيء أو بعيد.';
-  } else if (latencyIncreasePct > 80) {
+  } else if (latencyChangePct > 80) {
     title = 'سيرفر الـVPN بعيد جغرافيًا عنك';
     body = 'زمن الاستجابة (Ping) زاد بنسبة كبيرة جدًا، وهذا نمط متوقع لما السيرفر يكون بمنطقة بعيدة عن موقعك الفعلي.';
   } else if (speedDropPct > 40) {
@@ -507,17 +710,58 @@ function buildResults() {
   document.getElementById('diagTitle').textContent = title;
   document.getElementById('diagBody').textContent = body;
 
-  document.getElementById('aiText').textContent =
-    `بمقارنة القياسين: السرعة انخفضت من ${b.speed.toFixed(1)} إلى ${a.speed.toFixed(1)} Mbps (${speedDropPct.toFixed(0)}%)، ` +
-    `وPing ارتفع من ${b.latency.toFixed(0)} إلى ${a.latency.toFixed(0)} ms. ${body}`;
+  const speedVerb = speedChangePct >= 0 ? 'تحسّنت' : 'انخفضت';
+  const pingVerb = latencyChangePct <= 0 ? 'انخفض' : 'ارتفع';
+  const ruleBasedText =
+    `بمقارنة القياسين: السرعة ${speedVerb} من ${b.speed.toFixed(1)} إلى ${a.speed.toFixed(1)} Mbps (${Math.abs(speedChangePct).toFixed(0)}%)، ` +
+    `وPing ${pingVerb} من ${b.latency.toFixed(0)} إلى ${a.latency.toFixed(0)} ms. ${body}`;
+
+  document.getElementById('aiWho').innerHTML = '<div class="dot"></div>SMART ANALYSIS';
+  document.getElementById('aiBox').classList.remove('live');
+  document.getElementById('aiText').textContent = ruleBasedText;
+  document.getElementById('aiNote').textContent = '';
+
+  saveHistory({ time: new Date().toLocaleTimeString('ar', {hour:'2-digit', minute:'2-digit'}), before: b, after: a, title });
+  renderHistory();
 
   showView('view-results');
+}
+
+// ---- scan history (client-side, localStorage) ----
+function saveHistory(entry) {
+  try {
+    const hist = JSON.parse(localStorage.getItem('novinet_history') || '[]');
+    hist.unshift(entry);
+    localStorage.setItem('novinet_history', JSON.stringify(hist.slice(0, 15)));
+  } catch (e) { /* ignore storage errors */ }
+}
+
+function renderHistory() {
+  const wrap = document.getElementById('historyList');
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem('novinet_history') || '[]'); } catch (e) {}
+  if (!hist.length) {
+    wrap.innerHTML = '<div class="history-empty">ما فيه فحوصات محفوظة بعد</div>';
+    return;
+  }
+  wrap.innerHTML = '<div class="history-list">' + hist.map(h =>
+    `<div class="history-item">
+      <span class="h-time">${h.time}</span>
+      <span class="h-metrics">${h.before.speed.toFixed(0)}→${h.after.speed.toFixed(0)} Mbps</span>
+      <span class="h-diag">${h.title}</span>
+    </div>`
+  ).join('') + '</div>';
+}
+
+function clearHistory() {
+  localStorage.removeItem('novinet_history');
+  renderHistory();
 }
 
 function resetAll(){
   measurements = { before: null, after: null };
   document.querySelectorAll('#checklist .check-item').forEach(item => {
-    item.classList.remove('done');
+    item.classList.remove('done', 'active');
     item.querySelector('.val').textContent = '';
   });
   document.getElementById('statusCard').classList.remove('show');
@@ -547,6 +791,7 @@ document.querySelectorAll('.chip').forEach(chip => {
 // idle waveform animation
 function animateWave(id, amp){
   const path = document.getElementById(id);
+  if (!path) return;
   let t = 0;
   function frame(){
     t += 0.04;
@@ -561,21 +806,20 @@ function animateWave(id, amp){
   frame();
 }
 animateWave('waveIdle', 6);
-animateWave('waveScan', 22);
 animateWave('waveVpn', 6);
 
-// warn clearly if opened via file:// (fetch to remote origins is often silently blocked)
 if (location.protocol === 'file:') {
   document.getElementById('fileWarning').style.display = 'block';
 }
 
-// clock
 function tick(){
   const now = new Date();
   document.getElementById('clock').textContent = now.toTimeString().slice(0,8);
 }
 tick();
 setInterval(tick, 1000);
+
+renderHistory();
 </script>
 
 </body>
