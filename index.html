@@ -270,6 +270,47 @@
   @media (max-width: 420px){
     .compare{ grid-template-columns: 1fr; }
   }
+
+  /* ---------- RADAR HERO (idle) ---------- */
+  .radar-monitor{ display:flex; align-items:center; justify-content:center; padding: 22px; }
+  .radar{ width: 180px; height: 180px; overflow: visible; }
+  .radar-ring{ fill:none; stroke: var(--line); stroke-width:1; }
+  .radar-cross{ stroke: var(--line-soft); stroke-width:1; }
+  .radar-sweep-g{ transform-origin: 100px 100px; animation: radarspin 3.6s linear infinite; }
+  .radar-blip{ fill: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); animation: blip 2.4s ease-in-out infinite; }
+  .radar-blip.b2{ animation-delay: 1.1s; }
+  .radar-core{ fill: var(--accent); filter: drop-shadow(0 0 5px var(--accent)); }
+  @keyframes radarspin{ to{ transform: rotate(360deg); } }
+  @keyframes blip{ 0%,100%{ opacity:0.35; } 50%{ opacity:1; } }
+
+  /* ---------- VISUAL COMPARISON BARS ---------- */
+  .bars-card{
+    border:1px solid var(--line); border-radius: var(--radius);
+    background: var(--surface); padding:16px 18px; margin-bottom:16px;
+  }
+  .bar-group{ margin-bottom: 16px; }
+  .bar-group:last-child{ margin-bottom:0; }
+  .bar-group-label{ font-size:11.5px; color: var(--text-muted); margin-bottom:8px; }
+  .bar-row{ display:flex; align-items:center; gap:10px; margin-bottom:7px; }
+  .bar-row:last-child{ margin-bottom:0; }
+  .bar-tag{ width:32px; font-size:11px; color: var(--text-muted); flex-shrink:0; }
+  .bar-track{ flex:1; height:8px; background: var(--line-soft); border-radius:4px; overflow:hidden; }
+  .bar-fill{ height:100%; width:0%; border-radius:4px; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+  .bar-fill.before{ background: var(--accent); }
+  .bar-fill.after{ background: var(--violet); }
+  .bar-val{ width:74px; text-align:left; font-size:12px; flex-shrink:0; }
+
+  /* ---------- FIX STEPS PANEL ---------- */
+  .fix-panel{
+    display:none;
+    border:1px solid var(--accent-dim); border-radius: var(--radius);
+    background: var(--surface); padding:16px 18px; margin-bottom:22px;
+  }
+  .fix-panel.show{ display:block; }
+  .fix-panel ol{ padding-inline-start: 20px; font-size:13.5px; line-height:2; color: var(--text); }
+  .fix-panel .fix-head{ font-size:11px; color: var(--accent); margin-bottom:10px; font-family:'IBM Plex Mono',monospace; direction:ltr; }
+  .conn-note{ font-size:11.5px; color: var(--text-muted); margin-top:10px; }
+
 </style>
 </head>
 <body>
@@ -302,9 +343,25 @@
 
   <!-- VIEW 1: IDLE -->
   <div class="view active" id="view-idle">
-    <div class="monitor">
-      <svg class="wave" viewBox="0 0 600 90" preserveAspectRatio="none">
-        <path id="waveIdle" d="M0,45 L600,45"/>
+    <div class="monitor radar-monitor">
+      <svg class="radar" viewBox="0 0 200 200">
+        <defs>
+          <linearGradient id="radarGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#5EEAD4" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#5EEAD4" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <circle class="radar-ring" cx="100" cy="100" r="30"/>
+        <circle class="radar-ring" cx="100" cy="100" r="60"/>
+        <circle class="radar-ring" cx="100" cy="100" r="90"/>
+        <line class="radar-cross" x1="10" y1="100" x2="190" y2="100"/>
+        <line class="radar-cross" x1="100" y1="10" x2="100" y2="190"/>
+        <g class="radar-sweep-g">
+          <path d="M100,100 L100,10 A90,90 0 0,1 163.6,36.4 Z" fill="url(#radarGrad)"/>
+        </g>
+        <circle class="radar-blip b1" cx="142" cy="68" r="3"/>
+        <circle class="radar-blip b2" cx="58" cy="132" r="3"/>
+        <circle class="radar-core" cx="100" cy="100" r="4"/>
       </svg>
     </div>
     <h1>شبكتك تشتغل غريب بعد ما شغّلت VPN؟</h1>
@@ -408,6 +465,19 @@
       </div>
     </div>
 
+    <div class="bars-card">
+      <div class="bar-group">
+        <div class="bar-group-label">مقارنة السرعة (Mbps)</div>
+        <div class="bar-row"><span class="bar-tag">قبل</span><div class="bar-track"><div class="bar-fill before" id="barSpeedBefore"></div></div><span class="bar-val mono" id="barSpeedBeforeVal">—</span></div>
+        <div class="bar-row"><span class="bar-tag">بعد</span><div class="bar-track"><div class="bar-fill after" id="barSpeedAfter"></div></div><span class="bar-val mono" id="barSpeedAfterVal">—</span></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-group-label">مقارنة Ping (ms) — كل ما قلّ كان أفضل</div>
+        <div class="bar-row"><span class="bar-tag">قبل</span><div class="bar-track"><div class="bar-fill before" id="barPingBefore"></div></div><span class="bar-val mono" id="barPingBeforeVal">—</span></div>
+        <div class="bar-row"><span class="bar-tag">بعد</span><div class="bar-track"><div class="bar-fill after" id="barPingAfter"></div></div><span class="bar-val mono" id="barPingAfterVal">—</span></div>
+      </div>
+    </div>
+
     <div class="loc-card" id="locCard" style="display:none;">
       <span class="loc-icon">◈</span>
       <span>الموقع الظاهري: <b id="locBefore">—</b></span>
@@ -438,10 +508,19 @@
       <span id="aiText">—</span>
     </div>
     <div class="ai-note" id="aiNote"></div>
+    <div class="conn-note" id="connNote" style="display:none;"></div>
 
-    <div class="btn-row" style="margin-bottom:30px;">
-      <button class="btn" onclick="alert('هذا نموذج أولي — الإصلاح التلقائي جزء من مرحلة التطوير القادمة')">إصلاح تلقائي</button>
+    <div class="fix-panel" id="fixPanel">
+      <div class="fix-head">خطوات مقترحة بناءً على تشخيصك</div>
+      <ol id="fixSteps"></ol>
+    </div>
+
+    <div class="btn-row" style="margin-bottom:14px;">
+      <button class="btn" onclick="toggleFixPanel()">خطوات الإصلاح المقترحة</button>
       <button class="btn btn-ghost" onclick="showView('view-apps')">فحص توافق التطبيقات ←</button>
+    </div>
+    <div class="btn-row" style="margin-bottom:30px;">
+      <button class="btn btn-ghost" onclick="downloadReport()">⬇ تحميل تقرير النتائج</button>
     </div>
   </div>
 
@@ -555,6 +634,14 @@ async function getLocation() {
   }
 }
 
+// real browser-reported connection info, when the browser exposes it
+// (Chrome/Edge/Android support it; Safari/Firefox don't — handled gracefully)
+function getConnectionInfo() {
+  const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (!c) return null;
+  return { type: c.effectiveType || null, downlink: c.downlink, rtt: c.rtt };
+}
+
 let measurements = { before: null, after: null };
 
 // ---- live chart during scan (plots real latency samples as they arrive) ----
@@ -625,7 +712,7 @@ async function runMeasurement(phase) {
     const location = await getLocation();
     markDone('loc', location ? (location.city ? `${location.city}, ${location.country}` : location.country) : 'تعذر الجلب');
 
-    measurements[phase] = { latency, jitter, dns, speed, loss, location };
+    measurements[phase] = { latency, jitter, dns, speed, loss, location, conn: getConnectionInfo() };
 
     await new Promise(r => setTimeout(r, 400));
 
@@ -687,25 +774,31 @@ function buildResults() {
   document.getElementById('dropPct').textContent =
     (speedChangePct >= 0 ? '+' : '-') + Math.abs(speedChangePct).toFixed(0) + '%';
 
-  let title, body;
+  let title, body, fixKey;
   if (speedImprovePct > 15 || latencyChangePct < -20) {
     title = 'الـVPN حسّن أداء شبكتك';
     body = 'الأرقام بعد تفعيل الـVPN أفضل من قبله — مؤشر إن مسار الشبكة العادي عندك فيه ازدحام أو تقييد من مزوّد الخدمة، والـVPN يتجاوزه بمسار أفضل.';
+    fixKey = 'improve';
   } else if (a.loss > 15) {
     title = 'فقدان بيانات ملحوظ بعد تفعيل الـVPN';
     body = 'نسبة الحزم المفقودة ارتفعت بشكل واضح، وهذا يفسر أي تقطيع أو بطء تحسّينه أثناء الاتصال — جرّبي تبديل سيرفر الـVPN.';
+    fixKey = 'loss';
   } else if (dnsIncrease > 15 && a.dns > 20) {
     title = 'تعارض محتمل في إعدادات DNS';
     body = 'زمن الـDNS lookup زاد بشكل واضح بعد تفعيل الـVPN، وهذا مؤشر على إن السيرفر يستخدم DNS بطيء أو بعيد.';
+    fixKey = 'dns';
   } else if (latencyChangePct > 80) {
     title = 'سيرفر الـVPN بعيد جغرافيًا عنك';
     body = 'زمن الاستجابة (Ping) زاد بنسبة كبيرة جدًا، وهذا نمط متوقع لما السيرفر يكون بمنطقة بعيدة عن موقعك الفعلي.';
+    fixKey = 'distance';
   } else if (speedDropPct > 40) {
     title = 'انخفاض متوقع بسبب التشفير والازدحام';
     body = 'الانخفاض بالسرعة يقع بالمدى الطبيعي لتشفير الـVPN، لكنه ملحوظ — قد يتحسن بتبديل بروتوكول الاتصال أو السيرفر.';
+    fixKey = 'encryption';
   } else {
     title = 'الأداء ضمن النطاق الطبيعي';
     body = 'الفروقات اللي قِسناها بسيطة نسبيًا، الـVPN ما يبيّن تأثيرًا كبيرًا غير طبيعي على شبكتك حاليًا.';
+    fixKey = 'normal';
   }
   document.getElementById('diagTitle').textContent = title;
   document.getElementById('diagBody').textContent = body;
@@ -721,10 +814,104 @@ function buildResults() {
   document.getElementById('aiText').textContent = ruleBasedText;
   document.getElementById('aiNote').textContent = '';
 
+  // visual comparison bars (real values, scaled relative to the larger of the two)
+  const maxSpeed = Math.max(b.speed, a.speed, 1);
+  const maxPing = Math.max(b.latency, a.latency, 1);
+  document.getElementById('barSpeedBefore').style.width = (b.speed / maxSpeed * 100).toFixed(1) + '%';
+  document.getElementById('barSpeedAfter').style.width = (a.speed / maxSpeed * 100).toFixed(1) + '%';
+  document.getElementById('barSpeedBeforeVal').textContent = b.speed.toFixed(1) + ' Mbps';
+  document.getElementById('barSpeedAfterVal').textContent = a.speed.toFixed(1) + ' Mbps';
+  document.getElementById('barPingBefore').style.width = (b.latency / maxPing * 100).toFixed(1) + '%';
+  document.getElementById('barPingAfter').style.width = (a.latency / maxPing * 100).toFixed(1) + '%';
+  document.getElementById('barPingBeforeVal').textContent = b.latency.toFixed(0) + ' ms';
+  document.getElementById('barPingAfterVal').textContent = a.latency.toFixed(0) + ' ms';
+
+  // real browser-reported connection type, shown only if the browser exposes it
+  const connNote = document.getElementById('connNote');
+  if (a.conn && a.conn.type) {
+    connNote.style.display = 'block';
+    connNote.textContent = `نوع الاتصال المُبلَّغ من المتصفح: ${a.conn.type.toUpperCase()}` +
+      (a.conn.downlink ? ` — سرعة تقديرية ${a.conn.downlink} Mbps` : '');
+  } else {
+    connNote.style.display = 'none';
+  }
+
+  document.getElementById('fixPanel').classList.remove('show');
+  document.getElementById('fixSteps').innerHTML = fixTips[fixKey].map(s => `<li>${s}</li>`).join('');
+  currentFixKey = fixKey;
+
   saveHistory({ time: new Date().toLocaleTimeString('ar', {hour:'2-digit', minute:'2-digit'}), before: b, after: a, title });
   renderHistory();
 
   showView('view-results');
+}
+
+const fixTips = {
+  improve: [
+    'فعّلي الـVPN بشكل دائم إذا لاحظتِ إنه يحسّن أداء شبكتك بثبات.',
+    'كرّري القياس بأوقات مختلفة من اليوم للتأكد إن التحسن مو مؤقت.'
+  ],
+  loss: [
+    'بدّلي سيرفر الـVPN لموقع أقرب جغرافيًا.',
+    'جربي بروتوكول اتصال مختلف (WireGuard بدل OpenVPN) إذا يتيحه تطبيقك.',
+    'تأكدي إن جهازك متصل بشبكة Wi-Fi مستقرة وقت الاستخدام.'
+  ],
+  dns: [
+    'غيّري إعدادات DNS يدويًا داخل تطبيق الـVPN (مثل 1.1.1.1 أو 8.8.8.8).',
+    'أعيدي تشغيل تطبيق الـVPN بعد تغيير الـDNS.'
+  ],
+  distance: [
+    'اختاري سيرفر VPN أقرب جغرافيًا لموقعك الفعلي بدل الاختيار التلقائي.',
+    'جرّبي أكثر من سيرفر بنفس الدولة وقارني الأداء بينها.'
+  ],
+  encryption: [
+    'جربي بروتوكول أخف مثل WireGuard بدل البروتوكولات الأقدم.',
+    'أغلقي التطبيقات الثانية اللي تستهلك الشبكة أثناء الاستخدام.'
+  ],
+  normal: [
+    'لا يوجد إجراء عاجل — الأداء الحالي طبيعي.',
+    'راقبي الأداء بشكل دوري من هذي الصفحة للتأكد من الاستقرار.'
+  ]
+};
+let currentFixKey = 'normal';
+
+function toggleFixPanel() {
+  document.getElementById('fixPanel').classList.toggle('show');
+}
+
+function downloadReport() {
+  const b = measurements.before, a = measurements.after;
+  if (!b || !a) return;
+  const lines = [
+    'تقرير تشخيص الشبكة — NoviNet',
+    'التاريخ: ' + new Date().toLocaleString('ar-SA'),
+    '',
+    'قبل الـVPN:',
+    `  السرعة: ${b.speed.toFixed(1)} Mbps`,
+    `  Ping: ${b.latency.toFixed(0)} ms`,
+    `  Jitter: ${b.jitter.toFixed(0)} ms`,
+    `  DNS lookup: ${b.dns.toFixed(0)} ms`,
+    '',
+    'بعد الـVPN:',
+    `  السرعة: ${a.speed.toFixed(1)} Mbps`,
+    `  Ping: ${a.latency.toFixed(0)} ms`,
+    `  Jitter: ${a.jitter.toFixed(0)} ms`,
+    `  DNS lookup: ${a.dns.toFixed(0)} ms`,
+    `  فقدان الحزم (تقديري): ${a.loss}%`,
+    '',
+    'التشخيص: ' + document.getElementById('diagTitle').textContent,
+    document.getElementById('diagBody').textContent,
+    '',
+    'خطوات مقترحة:',
+    ...fixTips[currentFixKey].map((s, i) => `  ${i + 1}. ${s}`)
+  ];
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'novinet-report.txt';
+  link.click();
+  URL.revokeObjectURL(url);
 }
 
 // ---- scan history (client-side, localStorage) ----
@@ -765,6 +952,7 @@ function resetAll(){
     item.querySelector('.val').textContent = '';
   });
   document.getElementById('statusCard').classList.remove('show');
+  document.getElementById('fixPanel').classList.remove('show');
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   showView('view-idle');
 }
@@ -805,7 +993,6 @@ function animateWave(id, amp){
   }
   frame();
 }
-animateWave('waveIdle', 6);
 animateWave('waveVpn', 6);
 
 if (location.protocol === 'file:') {
