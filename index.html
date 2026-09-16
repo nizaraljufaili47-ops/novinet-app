@@ -859,12 +859,13 @@
   <!-- VIEW 4: APP COMPAT -->
   <div class="view" id="view-apps">
     <div class="section-label">اختر تطبيق عشان نتحقق من توافقه مع الـVPN</div>
+    <p class="landing-sub" style="margin-bottom:16px;">التقييم مبني على مقارنة متطلبات كل تطبيق (سرعة، ثبات اتصال، حساسية للموقع) مع أرقام قياسك الفعلية بعد الـVPN — مو فحص مباشر داخل التطبيقات نفسها.</p>
     <div class="chips" id="appChips">
-      <div class="chip" data-status="good">واتساب</div>
-      <div class="chip" data-status="warn">نتفليكس</div>
-      <div class="chip" data-status="bad">تطبيق بنكي</div>
-      <div class="chip" data-status="good">انستقرام</div>
-      <div class="chip" data-status="warn">ألعاب أونلاين</div>
+      <div class="chip" data-key="whatsapp">💬 واتساب</div>
+      <div class="chip" data-key="netflix">🎬 نتفليكس</div>
+      <div class="chip" data-key="banking">🏦 تطبيق بنكي</div>
+      <div class="chip" data-key="instagram">📷 انستقرام</div>
+      <div class="chip" data-key="gaming">🎮 ألعاب أونلاين</div>
     </div>
 
     <div class="status-card" id="statusCard">
@@ -1187,13 +1188,14 @@ function buildResults() {
 
   // location comparison card
   const locCard = document.getElementById('locCard');
+  const locationChanged = !!(b.location && a.location && (b.location.ip !== a.location.ip || b.location.country !== a.location.country));
+  measurements.locationChanged = locationChanged;
   if (b.location && a.location) {
     locCard.style.display = 'flex';
     document.getElementById('locBefore').textContent = b.location.city ? `${b.location.city}, ${b.location.country}` : b.location.country;
     document.getElementById('locAfter').textContent = a.location.city ? `${a.location.city}, ${a.location.country}` : a.location.country;
-    const changed = b.location.ip !== a.location.ip || b.location.country !== a.location.country;
     const badge = document.getElementById('locBadge');
-    if (changed) {
+    if (locationChanged) {
       badge.textContent = 'تغيّر ✓'; badge.className = 'loc-badge ok';
     } else {
       badge.textContent = 'لم يتغيّر ⚠'; badge.className = 'loc-badge warn';
@@ -1400,21 +1402,56 @@ function resetAll(){
   showView('view-home');
 }
 
-const statusMap = {
-  good: { badge:'#5EEAD4', title:'يعمل بشكل طبيعي', desc:'ما فيه تأثير ملحوظ على أداء هذا التطبيق أثناء الاتصال بالـVPN.' },
-  warn: { badge:'#F5B95B', title:'أداء منخفض', desc:'قد يواجه بطء أو تقطيع بسيط، خصوصًا مع البث أو الألعاب.' },
-  bad:  { badge:'#FB7A85', title:'تعارض مباشر', desc:'التطبيق يرفض الاتصال أو يطلب إيقاف الـVPN بسبب كشف الشبكة.' }
-};
+// ---- app compatibility: evaluated from THIS check's real measurements ----
+// (not a live probe into each app — we don't have access to that from a browser —
+// but a transparent, rule-based comparison of each app's typical network needs
+// against the actual numbers this scan just measured after the VPN was enabled)
+const STATUS_COLORS = { good: '#5EEAD4', warn: '#F5B95B', bad: '#FB7A85' };
+
+function evaluateAppCompat(key, a, locationChanged) {
+  switch (key) {
+    case 'banking':
+      if (locationChanged) return { status: 'bad', title: 'قد يرفض الدخول أو يطلب تحقق إضافي', desc: 'موقعك الظاهري تغيّر فعليًا بعد تفعيل الـVPN — تطبيقات البنوك تراقب هذا وقد تعتبره نشاطًا مشتبهًا.' };
+      if (a.loss > 5) return { status: 'warn', title: 'احتمال انقطاع الجلسة', desc: `فقدان الحزم بعد الـVPN ${a.loss}% — مستوى قد يقطع عمليات حساسة كالتحويلات.` };
+      return { status: 'good', title: 'يعمل بشكل طبيعي', desc: 'موقعك الظاهري لم يتغيّر وفقدان الحزم ضمن الطبيعي.' };
+    case 'whatsapp':
+      if (a.loss > 5 || a.jitter > 50) return { status: 'bad', title: 'مكالمات متقطعة متوقعة', desc: `فقدان حزم ${a.loss}% وJitter ${a.jitter.toFixed(0)}ms — مستوى يسبب تقطيع واضح بمكالمات الصوت/الفيديو.` };
+      if (a.loss > 2 || a.jitter > 25) return { status: 'warn', title: 'جودة مكالمات متوسطة', desc: 'الرسائل تعمل تمام، لكن المكالمات ممكن تتقطع بالشبكات المزدحمة.' };
+      return { status: 'good', title: 'يعمل بشكل طبيعي', desc: 'ثبات الاتصال وفقدان الحزم ضمن النطاق المثالي للمكالمات والرسائل.' };
+    case 'netflix':
+      if (a.speed < 5) return { status: 'bad', title: 'تقطيع متوقع، جودة منخفضة', desc: `السرعة الحالية ${a.speed.toFixed(1)} Mbps أقل من الحد الأدنى لبث مستقر (5 Mbps).` };
+      if (a.speed < 15) return { status: 'warn', title: 'جودة SD/HD فقط', desc: `${a.speed.toFixed(1)} Mbps تكفي للبث العادي، بس مو كافية لـ4K بثبات.` };
+      return { status: 'good', title: 'يعمل بشكل طبيعي', desc: `${a.speed.toFixed(1)} Mbps كافية للبث بجودة عالية بدون تقطيع.` };
+    case 'instagram':
+      if (a.speed < 2) return { status: 'warn', title: 'تحميل بطيء للفيديوهات', desc: `${a.speed.toFixed(1)} Mbps منخفضة — الصور تفتح، لكن الفيديوهات والـReels ممكن تتأخر.` };
+      return { status: 'good', title: 'يعمل بشكل طبيعي', desc: 'السرعة الحالية كافية لتصفح طبيعي بدون تأخير ملحوظ.' };
+    case 'gaming':
+      if (a.latency > 150 || a.jitter > 50) return { status: 'bad', title: 'تأخير واضح باللعب (Lag)', desc: `Ping ${a.latency.toFixed(0)}ms وJitter ${a.jitter.toFixed(0)}ms — مستوى يسبب تأخير محسوس بالألعاب التنافسية.` };
+      if (a.latency > 80 || a.jitter > 25) return { status: 'warn', title: 'أداء مقبول، لا مثالي', desc: 'مناسب لألعاب غير تنافسية — تبديل سيرفر VPN أقرب قد يقلل الـPing.' };
+      return { status: 'good', title: 'يعمل بشكل طبيعي', desc: `Ping ${a.latency.toFixed(0)}ms ضمن النطاق الجيد للألعاب الأونلاين.` };
+    default:
+      return { status: 'good', title: '—', desc: '—' };
+  }
+}
 
 document.querySelectorAll('.chip').forEach(chip => {
   chip.addEventListener('click', () => {
+    const a = measurements.after;
+    if (!a) {
+      document.getElementById('statusTitle').textContent = 'سوّي فحص كامل أول';
+      document.getElementById('statusDesc').textContent = 'هذا التقييم يحتاج نتائج قياس حقيقية — رجعي للرئيسية وسوّي فحص قبل/بعد الـVPN.';
+      document.getElementById('statusBadge').style.background = STATUS_COLORS.warn;
+      document.getElementById('statusCard').classList.add('show');
+      return;
+    }
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
-    const status = statusMap[chip.dataset.status];
-    document.getElementById('statusBadge').style.background = status.badge;
-    document.getElementById('statusBadge').style.boxShadow = '0 0 8px ' + status.badge;
-    document.getElementById('statusTitle').textContent = chip.textContent + ' — ' + status.title;
-    document.getElementById('statusDesc').textContent = status.desc;
+    const result = evaluateAppCompat(chip.dataset.key, a, !!measurements.locationChanged);
+    const color = STATUS_COLORS[result.status];
+    document.getElementById('statusBadge').style.background = color;
+    document.getElementById('statusBadge').style.boxShadow = '0 0 8px ' + color;
+    document.getElementById('statusTitle').textContent = chip.textContent + ' — ' + result.title;
+    document.getElementById('statusDesc').textContent = result.desc;
     document.getElementById('statusCard').classList.add('show');
   });
 });
