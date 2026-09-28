@@ -437,7 +437,7 @@
   }
   .nav-tab + .nav-tab{ margin-inline-start: 14px; }
 
-  /* ---------- PLUS PRICING ---------- */
+  /* ---------- VPN SUBSCRIPTION PRICING ---------- */
   .plans-grid{ display:flex; flex-direction:column; gap:14px; margin-bottom: 20px; }
   .plan-card{
     border:1px solid var(--line); border-radius: var(--radius);
@@ -453,6 +453,25 @@
   .plan-price{ font-size: 30px; font-weight:700; font-family:'IBM Plex Mono',monospace; direction:ltr; unicode-bidi:isolate; margin-bottom:16px; }
   .plan-price span{ font-size:13px; color: var(--text-muted); font-family:'IBM Plex Sans Arabic',sans-serif; }
   .plan-features{ list-style:none; margin-bottom: 20px; font-size: 13px; color: var(--text); line-height:2.1; }
+
+  /* ---------- HOME VPN STATUS CARD ---------- */
+  .vpn-toggle-card{
+    display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+    border-radius: var(--radius); padding:16px 18px; margin-bottom:24px; cursor:pointer;
+  }
+  .vpn-toggle-title{ font-size:13.5px; font-weight:600; color:var(--text); }
+  .vpn-toggle-status{ font-size:12px; color:var(--text-muted); margin-top:2px; }
+  .vpn-switch-track{
+    position:relative; display:inline-block; width:46px; height:26px; flex-shrink:0;
+    background: var(--line); border-radius:999px; transition: background .2s;
+  }
+  .vpn-switch-track.on{ background: var(--accent); }
+  .vpn-switch-track.pending{ background: var(--warn-dim); }
+  .vpn-switch-thumb{
+    position:absolute; top:3px; right:3px; width:20px; height:20px;
+    background:#fff; border-radius:50%; transition: right .2s;
+  }
+  .vpn-switch-track.on .vpn-switch-thumb{ right:23px; }
 
   .install-banner{
     display:none; align-items:center; justify-content:space-between; gap:10px;
@@ -550,7 +569,7 @@
   </header>
 
   <div class="install-banner" id="installBanner">
-    <span>📲 ثبّتي NoviNet كتطبيق على جوالك</span>
+    <span>📲 ثبّت NoviNet كتطبيق على جوالك</span>
     <div style="display:flex; gap:8px;">
       <button class="btn" style="padding:8px 14px; font-size:12.5px;" onclick="installApp()">تثبيت</button>
       <button class="link-btn" onclick="document.getElementById('installBanner').style.display='none'">إغلاق</button>
@@ -561,24 +580,31 @@
     <button class="nav-tab active" data-target="view-home" onclick="showView('view-home')">الرئيسية</button>
     <button class="nav-tab" data-target="view-how" onclick="showView('view-how')">كيف تعمل؟</button>
     <button class="nav-tab" data-target="view-vpn" onclick="showView('view-vpn')">NoviNet VPN</button>
-    <button class="nav-tab" data-target="view-plus" onclick="showView('view-plus')">NoviNet Plus</button>
     <button class="nav-tab" data-target="view-roadmap" onclick="showView('view-roadmap')">خارطة الطريق</button>
   </div>
 
   <div id="fileWarning" style="display:none; background:#4A2530; border:1px solid var(--danger); border-radius:var(--radius); padding:14px 16px; margin-bottom:20px; font-size:13px; line-height:1.7;">
     ⚠ فتحتي الملف مباشرة (file://) — أغلب المتصفحات تمنع طلبات الشبكة بهذي الطريقة بصمت.
-    افتحي الموقع المنشور على الإنترنت بدل الملف المحلي.
+    افتح الموقع المنشور على الإنترنت بدل الملف المحلي.
   </div>
 
   <!-- VIEW 1: HOME -->
   <div class="view active" id="view-home">
+
+    <div class="vpn-toggle-card glass" id="homeVpnToggle" onclick="showView('view-vpn')" role="button" tabindex="0" onkeydown="if(event.key==='Enter') showView('view-vpn')">
+      <div>
+        <div class="vpn-toggle-title">NoviNet VPN</div>
+        <div class="vpn-toggle-status" id="homeVpnStatusText">غير مفعّل — اضغط للاشتراك (2 ر.ع/شهريًا)</div>
+      </div>
+      <span class="vpn-switch-track" id="homeVpnSwitchTrack"><span class="vpn-switch-thumb"></span></span>
+    </div>
 
     <div class="btn-row" style="margin-bottom:34px; margin-top:10px;">
       <button class="btn" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'})">جرّب القياس الآن ↓</button>
       <button class="btn btn-ghost" onclick="showView('view-how')">كيف تعمل؟</button>
     </div>
 
-    <div class="eyebrow" style="margin-bottom:24px;"><span class="dot"></span>يعمل مع أي VPN تستخدمينه — مو بديل عنه</div>
+    <div class="eyebrow" style="margin-bottom:24px;"><span class="dot"></span>يعمل مع أي VPN يُستخدم — مو بديل عنه</div>
 
     <section id="tool">
       <div class="monitor radar-monitor">
@@ -623,13 +649,13 @@
       <div class="landing-h2">هل NoviNet بديل عن الـVPN؟</div>
       <div class="glass" style="border-radius:var(--radius); padding:18px 20px;">
         <p style="font-size:13.5px; color:var(--text); line-height:1.9; margin-bottom:10px;">
-          <b style="color:var(--accent);">لا.</b> NoviNet ما يشفّر بياناتك ولا يوفر سيرفرات ولا يخفي IP — هذا شغل الـVPN نفسه. NoviNet يعمل <b>جنب</b> أي VPN تستخدمينه فعلًا (أي تطبيق)، ويقيس أداءه، يشخّص مشاكله، ويقترح حلول.
+          <b style="color:var(--accent);">لا.</b> NoviNet ما يشفّر بياناتك ولا يوفر سيرفرات ولا يخفي IP — هذا شغل الـVPN نفسه. NoviNet يعمل <b>جنب</b> أي VPN يُستخدم فعلًا (أي تطبيق)، ويقيس أداءه، يشخّص مشاكله، ويقترح حلول.
         </p>
         <p style="font-size:13px; color:var(--text-muted); line-height:1.9;">
-          فكّري فيه كـ"طبيب" لاتصال VPN عندك — يشتغل مع أي VPN تستخدمينه فعلًا. هذا يفتح لنا سوق مختلف بالكامل (يعمل مع كل شركات الـVPN بدل منافستها)، وفرصة حقيقية للبيع لشركات الـVPN نفسها (B2B) كطبقة دعم فني ذكية تقلل شكاوى مستخدميهم.
+          فكّر فيه كـ"طبيب" لاتصال الـVPN — يشتغل مع أي VPN مستخدَم فعلًا. هذا يفتح سوق مختلف بالكامل (يعمل مع كل شركات الـVPN بدل منافستها)، وفرصة حقيقية للبيع لشركات الـVPN نفسها (B2B) كطبقة دعم فني ذكية تقلل شكاوى مستخدميهم.
         </p>
         <p style="font-size:13px; color:var(--text-muted); line-height:1.9; margin-top:10px;">
-          وبجانب هذا، أطلقنا كمان <b style="color:var(--accent);">NoviNet VPN</b> — منتجنا الخاص، سيرفر VPN حقيقي شغّال داخل عُمان. <button class="btn btn-ghost" style="padding:6px 14px; font-size:12.5px;" onclick="showView('view-vpn')">شوفي التفاصيل ←</button>
+          وبجانب هذا، عندنا كمان <b style="color:var(--accent);">NoviNet VPN</b> — منتجنا الخاص، سيرفر VPN حقيقي شغّال داخل عُمان باشتراك شهري بسيط. <button class="btn btn-ghost" style="padding:6px 14px; font-size:12.5px;" onclick="showView('view-vpn')">شوف التفاصيل ←</button>
         </p>
       </div>
     </section>
@@ -644,7 +670,7 @@
         </div>
         <div class="step-card glass">
           <div class="step-num">2</div>
-          <div><h4>فعّلي VPN وقيسي مرة ثانية</h4><p>نفس القياسات بالضبط، بعد تفعيل الـVPN يدويًا — نفس الشروط، نفس الخادم، فرق واحد فقط.</p></div>
+          <div><h4>فعّل VPN وقِس مرة ثانية</h4><p>نفس القياسات بالضبط، بعد تفعيل الـVPN يدويًا — نفس الشروط، نفس الخادم، فرق واحد فقط.</p></div>
         </div>
         <div class="step-card glass">
           <div class="step-num">3</div>
@@ -669,7 +695,7 @@
 
     <section class="landing-section">
       <div class="landing-h2">منهجية القياس — بدون صناديق سوداء</div>
-      <p class="landing-sub">كل رقم تشوفينه له تفسير واضح. اضغطي لتفاصيل كل مقياس:</p>
+      <p class="landing-sub">كل رقم تشوفه له تفسير واضح. اضغط لتفاصيل كل مقياس:</p>
       <div class="accordion" id="methodAccordion">
         <div class="acc-item">
           <div class="acc-head" onclick="toggleAccordion(this)"><span>زمن الاستجابة (Ping) والـJitter</span><span class="chev">⌄</span></div>
@@ -691,14 +717,14 @@
     </section>
 
     <div class="cta-band glass">
-      <p>جاهزة تبدين؟ القياس الأول يستغرق أقل من 15 ثانية.</p>
+      <p>جاهز تبدأ؟ القياس الأول يستغرق أقل من 15 ثانية.</p>
       <button class="btn" onclick="showView('view-home'); setTimeout(() => document.getElementById('tool').scrollIntoView({behavior:'smooth'}), 50)">ابدأ الفحص ↓</button>
     </div>
   </div>
 
   <!-- VIEW 1B-2: NOVINET VPN (REAL VPN PRODUCT) -->
   <div class="view" id="view-vpn">
-    <div class="eyebrow"><span class="dot"></span>نسخة تجريبية محدودة — سيرفر حقيقي</div>
+    <div class="eyebrow"><span class="dot"></span>اشتراك شهري — سيرفر حقيقي</div>
     <h1 class="hero-title">NoviNet <span class="grad">VPN</span></h1>
     <p class="lede">سيرفر VPN حقيقي، بروتوكول WireGuard، مستضاف فعليًا داخل مسقط — عُمان. مو محاكاة ومو نموذج تصميمي.</p>
 
@@ -729,71 +755,33 @@
     </section>
 
     <section class="landing-section">
-      <div class="landing-h2">صراحة تامة عن وضع الخدمة الحالي</div>
-      <div class="glass" style="border-radius:var(--radius); padding:18px 20px;">
-        <ul style="font-size:13px; color:var(--text-muted); line-height:2; padding-inline-start:18px; margin:0;">
-          <li>هذي <b style="color:var(--text);">نسخة تجريبية مبكرة (Beta)</b> بسعة محدودة — التفعيل حاليًا يدوي عن طريق التواصل معنا، مو تسجيل تلقائي فوري.</li>
-          <li>ما فيه نظام يضمن حماية مطلقة 100% من كل هجوم إلكتروني — أي خدمة تدّعي هذا غير صادقة. اللي نقدر نضمنه هو اتباع أفضل ممارسات الأمان الصناعية، وهذا اللي سويناه فعليًا.</li>
-          <li>الخدمة تعمل حاليًا كمشروع طلابي/تجريبي ضمن مسابقة ريادة أعمال. أي توسع تجاري فعلي لاحقًا يخضع لمراجعة الأنظمة المعمول بها مع الجهات المختصة.</li>
-        </ul>
+      <div class="landing-h2">الاشتراك</div>
+      <div class="plans-grid" style="max-width:340px; margin:0 auto;">
+        <div class="plan-card glass highlight-plan">
+          <div class="plan-badge">وصول كامل</div>
+          <div class="plan-name">NoviNet VPN</div>
+          <div class="plan-price">2 ر.ع<span>/شهريًا</span></div>
+          <ul class="plan-features">
+            <li>✓ اتصال غير محدود بسيرفر مسقط</li>
+            <li>✓ بروتوكول WireGuard مشفّر</li>
+            <li>✓ تشديد أمني وتحديثات تلقائية</li>
+            <li>✓ دعم عبر الموقع مباشرة</li>
+          </ul>
+        </div>
       </div>
+      <p class="landing-sub" style="text-align:center;">التفعيل بعد تأكيد الاشتراك — نتواصل لإتمام الدفع وتفعيل الوصول خلال وقت قصير.</p>
     </section>
 
     <div id="vpnRequestForm" class="cta-band glass" style="margin-top:20px;">
-      <p>تبين تجربين NoviNet VPN؟ اطلبي وصول وبنراجع طلبك بسرعة.</p>
+      <p>تبي تشترك بـNoviNet VPN؟ اطلب الاشتراك وبنراجع طلبك بسرعة.</p>
       <div style="display:flex; gap:8px; max-width:440px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
-        <input id="vpnReqName" type="text" placeholder="اسمك" style="flex:1; min-width:140px; background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius); padding:11px 14px; color:var(--text); font-family:inherit; font-size:13.5px;">
+        <input id="vpnReqName" type="text" placeholder="الاسم" style="flex:1; min-width:140px; background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius); padding:11px 14px; color:var(--text); font-family:inherit; font-size:13.5px;">
         <input id="vpnReqEmail" type="email" placeholder="you@example.com" style="flex:1; min-width:180px; background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius); padding:11px 14px; color:var(--text); font-family:inherit; font-size:13.5px;">
-        <button class="btn" onclick="requestVpnAccess()">طلب وصول</button>
+        <input id="vpnReqPhone" type="tel" placeholder="رقم الجوال (واتساب يفضّل)" style="flex:1; min-width:160px; background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius); padding:11px 14px; color:var(--text); font-family:inherit; font-size:13.5px;">
+        <button class="btn" onclick="requestVpnAccess()">طلب الاشتراك</button>
       </div>
       <div id="vpnReqMsg" style="font-size:12px; color:var(--accent); margin-top:10px; display:none;"></div>
       <div id="vpnReqResult" style="margin-top:16px; display:none;"></div>
-    </div>
-  </div>
-
-  <!-- VIEW 1C: NOVINET PLUS (SUBSCRIPTION) -->
-  <div class="view" id="view-plus">
-    <div class="eyebrow"><span class="dot"></span>قريبًا</div>
-    <h1 class="hero-title">NoviNet <span class="grad">Plus</span></h1>
-    <p class="lede">النسخة المجانية تشخّص لك المشكلة. Plus يحلّها لك أوتوماتيك ويراقب شبكتك باستمرار.</p>
-
-    <div class="plans-grid">
-      <div class="plan-card glass">
-        <div class="plan-name">مجاني</div>
-        <div class="plan-price">0 ﷼<span>/شهر</span></div>
-        <ul class="plan-features">
-          <li>✓ قياس قبل/بعد VPN غير محدود</li>
-          <li>✓ تشخيص ذكي بالقواعد</li>
-          <li>✓ خطوات إصلاح مقترحة (يدوية)</li>
-          <li>✓ سجل آخر 15 فحص</li>
-        </ul>
-        <button class="btn btn-ghost" disabled style="width:100%; opacity:0.6; cursor:default;">هذي خطتك الحالية</button>
-      </div>
-
-      <div class="plan-card glass highlight-plan">
-        <div class="plan-badge">الأكثر طلبًا</div>
-        <div class="plan-name">NoviNet Plus</div>
-        <div class="plan-price">9.99 ﷼<span>/شهر</span></div>
-        <ul class="plan-features">
-          <li>✓ كل مميزات الخطة المجانية</li>
-          <li>✓ إصلاح تلقائي بضغطة واحدة</li>
-          <li>✓ مراقبة مستمرة + تنبيه فوري عند تدهور الشبكة</li>
-          <li>✓ سجل غير محدود + تصدير تقارير PDF</li>
-          <li>✓ دعم فني مباشر</li>
-        </ul>
-        <button class="btn" style="width:100%;" onclick="document.getElementById('waitlistEmail').scrollIntoView({behavior:'smooth', block:'center'}); document.getElementById('waitlistEmail').focus()">📩 انضمي لقائمة الانتظار</button>
-      </div>
-    </div>
-
-    <p class="landing-sub" style="margin-top:14px; text-align:center;">السعر مقترح ويخضع للتغيير أثناء مرحلة الإطلاق. الاشتراك الفعلي غير مفعّل بعد — سجّلي إيميلك ونعلمك أول ما يصير متاح.</p>
-
-    <div id="waitlistForm" class="cta-band glass" style="margin-top:20px;">
-      <p>سجّلي إيميلك عشان نعلمك أول ما تنطلق Plus</p>
-      <div style="display:flex; gap:8px; max-width:360px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
-        <input id="waitlistEmail" type="email" placeholder="you@example.com" style="flex:1; min-width:180px; background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius); padding:11px 14px; color:var(--text); font-family:inherit; font-size:13.5px;">
-        <button class="btn" onclick="joinWaitlist()">تسجيل</button>
-      </div>
-      <div id="waitlistMsg" style="font-size:12px; color:var(--accent); margin-top:10px; display:none;"></div>
     </div>
   </div>
 
@@ -824,7 +812,7 @@
         <ul>
           <li>تحليل بالذكاء الاصطناعي الحقيقي عبر خادم آمن (بدل القواعد الثابتة فقط)</li>
           <li>تطبيق جوال أصلي (iOS / Android) بدل النسخة الوِب فقط</li>
-          <li>مراقبة مستمرة وتنبيهات فورية عند تدهور الشبكة (NoviNet Plus)</li>
+          <li>مراقبة مستمرة وتنبيهات فورية عند تدهور الشبكة</li>
         </ul>
       </div>
       <div class="roadmap-phase">
@@ -889,7 +877,7 @@
       </svg>
     </div>
     <h1>تمام، سجّلنا قياسك الحقيقي قبل الـVPN ✓</h1>
-    <p class="lede">الحين شغّلي تطبيق الـVPN بجهازك يدويًا (أي تطبيق تستخدمينه عادة)، وبعد ما يتفعّل بنجاح، ارجعي هنا واضغطي المتابعة عشان نقيس نفس الشبكة مرة ثانية.</p>
+    <p class="lede">الحين شغّل تطبيق الـVPN بجهازك يدويًا (أي تطبيق يُستخدم عادة)، وبعد ما يتفعّل بنجاح، ارجع هنا واضغط المتابعة عشان نقيس نفس الشبكة مرة ثانية.</p>
     <div class="btn-row">
       <button class="btn" onclick="runMeasurement('after')">تم تفعيل الـVPN — قِس الآن</button>
       <button class="btn btn-ghost" onclick="resetAll()">إلغاء</button>
@@ -1049,7 +1037,7 @@
 </div>
 
 <script>
-const NAV_VIEWS = ['view-home', 'view-how', 'view-vpn', 'view-plus', 'view-roadmap'];
+const NAV_VIEWS = ['view-home', 'view-how', 'view-vpn', 'view-roadmap'];
 
 function showView(id){
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -1062,29 +1050,8 @@ function showView(id){
     nav.style.display = 'none';
   }
   if (id === 'view-vpn') { try { checkVpnStatus(); } catch(e){} }
+  if (id === 'view-home') { try { refreshHomeVpnToggle(); } catch(e){} }
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
-}
-
-function joinWaitlist(){
-  const input = document.getElementById('waitlistEmail');
-  const msg = document.getElementById('waitlistMsg');
-  const email = input.value.trim();
-  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  if (!isValid) {
-    msg.style.display = 'block';
-    msg.style.color = 'var(--danger)';
-    msg.textContent = 'اكتبي إيميل صحيح عشان نقدر نعلمك.';
-    return;
-  }
-  try {
-    const list = JSON.parse(localStorage.getItem('novinet_waitlist') || '[]');
-    if (!list.includes(email)) list.push(email);
-    localStorage.setItem('novinet_waitlist', JSON.stringify(list));
-  } catch (e) { /* ignore storage errors */ }
-  msg.style.display = 'block';
-  msg.style.color = 'var(--accent)';
-  msg.textContent = '✓ تم التسجيل! بنعلمك أول ما تنطلق Plus.';
-  input.value = '';
 }
 
 // ===================== NOVINET VPN — REAL ACCESS REQUEST FLOW =====================
@@ -1101,34 +1068,69 @@ function setVpnRequestId(id){
   try { localStorage.setItem('novinet_vpn_request_id', id); } catch(e){ /* ignore */ }
 }
 
+// Reflects the subscription/connection status on the homepage "switch".
+// Note: a webpage can't flip the device's real OS-level VPN on/off — the actual
+// tunnel only turns on inside the WireGuard app. This switch shows subscription
+// status and always routes to the NoviNet VPN page to actually act (subscribe /
+// view the QR code / see instructions).
+async function refreshHomeVpnToggle(){
+  const track = document.getElementById('homeVpnSwitchTrack');
+  const text = document.getElementById('homeVpnStatusText');
+  if (!track || !text) return;
+  const id = getVpnRequestId();
+  if (!id) {
+    track.classList.remove('on', 'pending');
+    text.textContent = 'غير مفعّل — اضغط للاشتراك (2 ر.ع/شهريًا)';
+    return;
+  }
+  try {
+    const res = await fetch(NOVINET_VPN_API + '/api/status/' + id);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.status === 'approved') {
+      track.classList.add('on'); track.classList.remove('pending');
+      text.textContent = 'مفعّل — افتح تطبيق WireGuard على الجهاز للاتصال';
+    } else if (data.status === 'pending') {
+      track.classList.add('pending'); track.classList.remove('on');
+      text.textContent = 'قيد المراجعة — بيتفعّل بعد تأكيد الاشتراك';
+    } else if (data.status === 'rejected') {
+      track.classList.remove('on', 'pending');
+      text.textContent = 'الطلب مرفوض — اضغط لإرسال طلب جديد';
+    }
+  } catch (e) { /* silent — network hiccup, will retry next visit */ }
+}
+
 async function requestVpnAccess(){
   const nameInput = document.getElementById('vpnReqName');
   const emailInput = document.getElementById('vpnReqEmail');
+  const phoneInput = document.getElementById('vpnReqPhone');
   const msg = document.getElementById('vpnReqMsg');
   const name = nameInput.value.trim();
   const email = emailInput.value.trim();
+  const phone = (phoneInput ? phoneInput.value.trim() : '');
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   msg.style.display = 'block';
-  if (name.length < 2) { msg.style.color = 'var(--danger)'; msg.textContent = 'اكتبي اسمك.'; return; }
-  if (!isValidEmail) { msg.style.color = 'var(--danger)'; msg.textContent = 'اكتبي إيميل صحيح.'; return; }
+  if (name.length < 2) { msg.style.color = 'var(--danger)'; msg.textContent = 'اكتب الاسم.'; return; }
+  if (!isValidEmail) { msg.style.color = 'var(--danger)'; msg.textContent = 'اكتب إيميل صحيح.'; return; }
+  if (phone.replace(/[^0-9]/g, '').length < 7) { msg.style.color = 'var(--danger)'; msg.textContent = 'اكتب رقم جوال صحيح.'; return; }
   msg.style.color = 'var(--text-muted)';
   msg.textContent = 'جاري الإرسال...';
   try {
     const res = await fetch(NOVINET_VPN_API + '/api/request', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email })
+      body: JSON.stringify({ name, email, phone })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'request_failed');
     setVpnRequestId(data.requestId);
     msg.style.color = 'var(--accent)';
-    msg.textContent = '✓ تم إرسال طلبك! بنراجعه ونفعّل وصولك — ارجعي لهذي الصفحة بعدين للتحقق.';
-    nameInput.value = ''; emailInput.value = '';
+    msg.textContent = '✓ تم إرسال طلبك! بنراجعه ونتواصل لإتمام الاشتراك — ارجع لهذي الصفحة بعدين للتحقق.';
+    nameInput.value = ''; emailInput.value = ''; if (phoneInput) phoneInput.value = '';
     checkVpnStatus();
   } catch (e) {
     msg.style.color = 'var(--danger)';
-    msg.textContent = 'تعذّر إرسال الطلب حاليًا. جربي مرة ثانية بعد شوي.';
+    msg.textContent = 'تعذّر إرسال الطلب حاليًا. جرّب مرة ثانية بعد شوي.';
   }
 }
 
@@ -1145,14 +1147,14 @@ async function checkVpnStatus(){
       resultBox.style.display = 'block';
       resultBox.innerHTML =
         '<div class="glass" style="border-radius:var(--radius); padding:16px; text-align:center;">' +
-        '<p style="font-size:13px; color:var(--accent); margin-bottom:10px;">✓ تم تفعيل وصولك! امسحي الـQR من داخل تطبيق WireGuard:</p>' +
+        '<p style="font-size:13px; color:var(--accent); margin-bottom:10px;">✓ تم تفعيل اشتراكك! امسح الـQR من داخل تطبيق WireGuard:</p>' +
         '<img src="' + data.qr + '" alt="WireGuard QR" style="max-width:220px; border-radius:8px; margin:0 auto; display:block;">' +
         '<button class="btn btn-ghost" style="margin-top:12px;" onclick="downloadVpnConfig()">تحميل ملف الاتصال (.conf)</button>' +
         '<div id="vpnConfigFallback" style="display:none; margin-top:12px; text-align:right;"></div>' +
         '</div>';
     } else if (data.status === 'pending') {
       resultBox.style.display = 'block';
-      resultBox.innerHTML = '<p class="landing-sub">طلبك قيد المراجعة حاليًا ⏳ — ارجعي هنا بعدين.</p>';
+      resultBox.innerHTML = '<p class="landing-sub">طلبك قيد المراجعة حاليًا ⏳ — ارجع هنا بعدين.</p>';
     } else if (data.status === 'rejected') {
       resultBox.style.display = 'block';
       resultBox.innerHTML = '<p class="landing-sub">ما قدرنا نفعّل هذا الطلب حاليًا. تواصلي معنا للتفاصيل.</p>';
@@ -1501,7 +1503,7 @@ function buildResults() {
     fixKey = 'improve';
   } else if (a.loss > 15) {
     title = 'فقدان بيانات ملحوظ بعد تفعيل الـVPN';
-    body = 'نسبة الحزم المفقودة ارتفعت بشكل واضح، وهذا يفسر أي تقطيع أو بطء تحسّينه أثناء الاتصال — جرّبي تبديل سيرفر الـVPN.';
+    body = 'نسبة الحزم المفقودة ارتفعت بشكل واضح، وهذا يفسر أي تقطيع أو بطء ملحوظ أثناء الاتصال — جرّب تبديل سيرفر الـVPN.';
     fixKey = 'loss';
   } else if (dnsIncrease > 15 && a.dns > 20) {
     title = 'تعارض محتمل في إعدادات DNS';
@@ -1568,24 +1570,24 @@ function buildResults() {
 
 const fixTips = {
   improve: [
-    'فعّلي الـVPN بشكل دائم إذا لاحظتِ إنه يحسّن أداء شبكتك بثبات.',
+    'فعّل الـVPN بشكل دائم إذا لوحظ إنه يحسّن أداء الشبكة بثبات.',
     'كرّري القياس بأوقات مختلفة من اليوم للتأكد إن التحسن مو مؤقت.'
   ],
   loss: [
     'بدّلي سيرفر الـVPN لموقع أقرب جغرافيًا.',
-    'جربي بروتوكول اتصال مختلف (WireGuard بدل OpenVPN) إذا يتيحه تطبيقك.',
-    'تأكدي إن جهازك متصل بشبكة Wi-Fi مستقرة وقت الاستخدام.'
+    'جرّب بروتوكول اتصال مختلف (WireGuard بدل OpenVPN) إذا يتيحه التطبيق.',
+    'تأكد إن الجهاز متصل بشبكة Wi-Fi مستقرة وقت الاستخدام.'
   ],
   dns: [
     'غيّري إعدادات DNS يدويًا داخل تطبيق الـVPN (مثل 1.1.1.1 أو 8.8.8.8).',
     'أعيدي تشغيل تطبيق الـVPN بعد تغيير الـDNS.'
   ],
   distance: [
-    'اختاري سيرفر VPN أقرب جغرافيًا لموقعك الفعلي بدل الاختيار التلقائي.',
-    'جرّبي أكثر من سيرفر بنفس الدولة وقارني الأداء بينها.'
+    'اختر سيرفر VPN أقرب جغرافيًا للموقع الفعلي بدل الاختيار التلقائي.',
+    'جرّب أكثر من سيرفر بنفس الدولة وقارن الأداء بينها.'
   ],
   encryption: [
-    'جربي بروتوكول أخف مثل WireGuard بدل البروتوكولات الأقدم.',
+    'جرّب بروتوكول أخف مثل WireGuard بدل البروتوكولات الأقدم.',
     'أغلقي التطبيقات الثانية اللي تستهلك الشبكة أثناء الاستخدام.'
   ],
   normal: [
@@ -1711,15 +1713,15 @@ function renderOmanCard(b, a) {
   if (!beforeOman) {
     badge.textContent = 'غير محدد'; badge.className = 'oman-badge warn';
     body.textContent = `موقعك قبل الـVPN طلع خارج عُمان حسب القياس (${b.location.country})، فما نقدر نبني تقييم دقيق لتوافق الخدمات والبنوك العُمانية من هذا الفحص.`;
-    altText.textContent = 'لو تستخدمين خدمات عُمانية وأنتِ مسافرة، اختاري سيرفر VPN داخل عُمان نفسها لو تطبيقك يوفر ذلك — هذا يرجّع موقعك الظاهري لعُمان.';
+    altText.textContent = 'لو تُستخدم خدمات عُمانية أثناء السفر، اختر سيرفر VPN داخل عُمان نفسها لو التطبيق يوفر ذلك — هذا يرجّع الموقع الظاهري لعُمان.';
   } else if (!afterOman) {
     badge.textContent = 'قد تُحجب ✗'; badge.className = 'oman-badge bad';
     body.textContent = `موقعك الظاهري بعد الـVPN طلع خارج عُمان (${a.location.country})، وأغلب البنوك والخدمات الحكومية العُمانية تربط الوصول بموقع داخل السلطنة — فقد تُطلب منك تحقق إضافي أو يُرفض الدخول تمامًا.`;
-    altText.textContent = 'اختاري سيرفر VPN داخل عُمان (إذا متوفر بتطبيقك)، أو فعّلي خاصية "تقسيم النفق" (Split Tunneling) إذا موجودة — تخلي تطبيقات البنوك والخدمات الحكومية تمر مباشرة بموقعك الحقيقي، والباقي يمر عبر الـVPN.';
+    altText.textContent = 'اختر سيرفر VPN داخل عُمان (إذا متوفر بالتطبيق)، أو فعّل خاصية "تقسيم النفق" (Split Tunneling) إذا موجودة — تخلي تطبيقات البنوك والخدمات الحكومية تمر مباشرة بالموقع الحقيقي، والباقي يمر عبر الـVPN.';
   } else {
     badge.textContent = 'متوافق ✓'; badge.className = 'oman-badge ok';
     body.textContent = 'موقعك الظاهري بعد الـVPN لسا داخل عُمان، فالخدمات المحلية (البنوك، الجهات الحكومية) غالبًا تشتغل بشكل طبيعي.';
-    altText.textContent = 'وضعك الحالي جيد. لو حبيتي خصوصية أعلى بدون المخاطرة بتوافق الخدمات العُمانية، جربي خاصية "تقسيم النفق" لو متوفرة بدل تمرير كل الترافيك عبر نفس السيرفر.';
+    altText.textContent = 'الوضع الحالي جيد. لو مطلوب خصوصية أعلى بدون المخاطرة بتوافق الخدمات العُمانية، جرّب خاصية "تقسيم النفق" لو متوفرة بدل تمرير كل الترافيك عبر نفس السيرفر.';
   }
 }
 
@@ -1769,8 +1771,8 @@ document.querySelectorAll('.chip').forEach(chip => {
   chip.addEventListener('click', () => {
     const a = measurements.after;
     if (!a) {
-      document.getElementById('statusTitle').textContent = 'سوّي فحص كامل أول';
-      document.getElementById('statusDesc').textContent = 'هذا التقييم يحتاج نتائج قياس حقيقية — رجعي للرئيسية وسوّي فحص قبل/بعد الـVPN.';
+      document.getElementById('statusTitle').textContent = 'سوّ فحص كامل أول';
+      document.getElementById('statusDesc').textContent = 'هذا التقييم يحتاج نتائج قياس حقيقية — ارجع للرئيسية وسوّ فحص قبل/بعد الـVPN.';
       document.getElementById('statusBadge').style.background = STATUS_COLORS.warn;
       document.getElementById('statusCard').classList.add('show');
       return;
@@ -1818,6 +1820,7 @@ tick();
 setInterval(tick, 1000);
 
 renderHistory();
+try { refreshHomeVpnToggle(); } catch(e){}
 
 // ===================== PWA: INSTALL PROMPT + SERVICE WORKER =====================
 let deferredInstallPrompt = null;
