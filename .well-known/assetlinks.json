@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.novinet.app",
+        "sha256_cert_fingerprints": ["2F:E7:85:CC:93:66:82:D7:0D:A9:10:AD:2B:CE:07:11:2F:89:88:C8:3F:92:0B:E3:3A:18:B9:5C:54:6C:5E:71"]
+      }
+    }]
