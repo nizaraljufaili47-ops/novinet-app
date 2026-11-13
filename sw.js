@@ -1,6 +1,6 @@
 // NoviNet service worker — app shell cache + offline fallback.
 // Bump VERSION on every deploy so users get the new files.
-const VERSION = 'novinet-v1';
+const VERSION = 'novinet-v2';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon-48.png'];
 
 self.addEventListener('install', (event) => {
