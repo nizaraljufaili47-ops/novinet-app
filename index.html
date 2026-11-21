@@ -4,7 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NoviNet — تشخيص الشبكة</title>
+<meta name="description" content="افحص جودة اتصالك بالإنترنت (السرعة، الـPing، الـJitter، الـDNS) من متصفحك مباشرة. ونسخة تجريبية من NoviNet VPN على سيرفر في مسقط.">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://novinet-app.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NoviNet">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:title" content="NoviNet — افحص جودة اتصالك قبل الـVPN وبعده">
+<meta property="og:description" content="السرعة والـPing والـJitter والـDNS تُقاس من متصفحك مباشرة. نسخة تجريبية.">
+<meta property="og:url" content="https://novinet-app.vercel.app/">
+<meta property="og:image" content="https://novinet-app.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="شعار NoviNet — تشخيص الشبكة">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NoviNet — افحص جودة اتصالك قبل الـVPN وبعده">
+<meta name="twitter:description" content="السرعة والـPing والـJitter والـDNS تُقاس من متصفحك مباشرة. نسخة تجريبية.">
+<meta name="twitter:image" content="https://novinet-app.vercel.app/og-image.png">
+<script src="site-config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <link rel="manifest" href="manifest.webmanifest">
@@ -78,11 +97,11 @@
     50%{ filter: drop-shadow(0 0 3px rgba(255,255,255,0.9)); }
   }
   .brand-name{ font-weight:700; font-size: 17px; letter-spacing: 0.2px; }
-  .brand-sub{ font-size: 11px; color: var(--text-muted); font-family:'IBM Plex Mono',monospace; direction: ltr; }
+  .brand-sub{ font-size: 12px; color: var(--text-muted); }
   .tag{
-    font-size: 11px; color: var(--text-muted);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 4px 9px; font-family:'IBM Plex Mono',monospace; direction: ltr;
+    font-size: 12px; color: var(--warn);
+    border: 1px solid var(--warn-dim); border-radius: var(--radius);
+    padding: 4px 10px;
   }
 
   .view{ display:none; }
@@ -108,7 +127,7 @@
   .live-chart .plot{ fill:none; stroke: var(--accent); stroke-width:2; stroke-linejoin:round; stroke-linecap:round; }
   .live-chart .fill{ fill: url(#chartFill); opacity:0.5; }
   .live-chart .dot-current{ fill: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); }
-  .live-chart-label{ display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-top:8px; font-family:'IBM Plex Mono',monospace; direction:ltr; }
+  .live-chart-label{ display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted); margin-top:8px; font-family:'IBM Plex Mono',monospace; direction:ltr; }
 
   h1{
     font-size: 24px; font-weight:700; line-height:1.35;
@@ -121,7 +140,7 @@
     background: var(--accent); color: #0A1512;
     font-family: inherit; font-weight:700; font-size: 14.5px;
     border:none; border-radius: var(--radius);
-    padding: 12px 20px; cursor:pointer;
+    padding: 12px 20px; cursor:pointer; min-height:44px; justify-content:center;
     transition: transform .15s ease, box-shadow .15s ease;
   }
   .btn:hover{ box-shadow: 0 0 0 3px var(--accent-dim); }
@@ -165,7 +184,7 @@
   .compare-col h3{ font-size:12.5px; color: var(--text-muted); margin-bottom:14px; font-weight:600; }
   .metric{ margin-bottom: 14px; }
   .metric:last-child{ margin-bottom:0; }
-  .metric-label{ font-size: 11.5px; color: var(--text-muted); margin-bottom:3px; }
+  .metric-label{ font-size:12px; color: var(--text-muted); margin-bottom:3px; }
   .metric-val{ font-family:'IBM Plex Mono',monospace; direction:ltr; font-size: 19px; font-weight:600; }
   .metric-val.bad{ color: var(--danger); }
   .metric-val.good{ color: var(--accent); }
@@ -178,7 +197,7 @@
   .loc-card .loc-icon{ color: var(--violet); font-family:'IBM Plex Mono',monospace; font-size:16px; }
   .loc-card b{ font-family:'IBM Plex Mono',monospace; direction:ltr; unicode-bidi:isolate; }
   .loc-arrow{ color: var(--text-muted); }
-  .loc-badge{ margin-inline-start:auto; font-size:11.5px; padding:3px 9px; border-radius: 20px; }
+  .loc-badge{ margin-inline-start:auto; font-size:12px; padding:3px 9px; border-radius: 20px; }
   .loc-badge.ok{ background: var(--accent-dim); color: var(--accent); }
   .loc-badge.warn{ background: var(--warn-dim); color: var(--warn); }
 
@@ -187,7 +206,7 @@
     background: var(--surface); padding:14px 16px; margin-bottom:22px;
     font-size:13px; display:flex; align-items:center; justify-content:space-between;
   }
-  .packet-loss .note{ font-size:11px; color:var(--text-muted); }
+  .packet-loss .note{ font-size:12px; color:var(--text-muted); }
 
   .diagnosis{
     border: 1px solid var(--danger-dim);
@@ -222,11 +241,11 @@
     transition: border-color .3s ease;
   }
   .ai-box.live{ border-inline-start-color: var(--violet); }
-  .ai-box .who{ font-size: 11px; color: var(--accent); margin-bottom:8px; font-family:'IBM Plex Mono',monospace; direction:ltr; display:flex; align-items:center; gap:6px; }
+  .ai-box .who{ font-size:12px; color: var(--accent); margin-bottom:8px; font-family:'IBM Plex Mono',monospace; direction:ltr; display:flex; align-items:center; gap:6px; }
   .ai-box.live .who{ color: var(--violet); }
   .ai-box .who .dot{ background: var(--accent); box-shadow: 0 0 5px var(--accent); }
   .ai-box.live .who .dot{ background: var(--violet); box-shadow: 0 0 5px var(--violet); animation: pulse 1.2s infinite; }
-  .ai-note{ font-size:11.5px; color: var(--text-muted); margin-bottom:22px; }
+  .ai-note{ font-size:12px; color: var(--text-muted); margin-bottom:22px; }
 
   .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 18px; }
   .chip{
@@ -262,14 +281,14 @@
   .history-item .h-metrics{ font-family:'IBM Plex Mono',monospace; direction:ltr; color:var(--text); flex-shrink:0; }
   .history-item .h-diag{ color: var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
   .history-empty{ font-size:12.5px; color:var(--text-muted); padding:16px; border:1px dashed var(--line); border-radius:var(--radius); text-align:center; }
-  .link-btn{ background:none; border:none; color:var(--text-muted); font-family:inherit; font-size:11.5px; cursor:pointer; text-decoration:underline; }
+  .link-btn{ background:none; border:none; color:var(--text-muted); font-family:inherit; font-size:12.5px; cursor:pointer; text-decoration:underline; min-height:44px; padding:0 10px; }
   .link-btn:hover{ color: var(--danger); }
 
   footer{
     margin-top: 30px; padding-top: 18px; border-top:1px solid var(--line);
-    font-size: 11.5px; color: var(--text-muted); display:flex; justify-content:space-between;
-    font-family:'IBM Plex Mono',monospace; direction:ltr;
+    font-size: 12.5px; color: var(--text-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 16px;
   }
+  footer a{ color: var(--accent); text-decoration:underline; display:inline-flex; align-items:center; min-height:44px; }
 
   @media (max-width: 420px){
     .compare{ grid-template-columns: 1fr; }
@@ -294,10 +313,10 @@
   }
   .bar-group{ margin-bottom: 16px; }
   .bar-group:last-child{ margin-bottom:0; }
-  .bar-group-label{ font-size:11.5px; color: var(--text-muted); margin-bottom:8px; }
+  .bar-group-label{ font-size:12px; color: var(--text-muted); margin-bottom:8px; }
   .bar-row{ display:flex; align-items:center; gap:10px; margin-bottom:7px; }
   .bar-row:last-child{ margin-bottom:0; }
-  .bar-tag{ width:32px; font-size:11px; color: var(--text-muted); flex-shrink:0; }
+  .bar-tag{ width:32px; font-size:12px; color: var(--text-muted); flex-shrink:0; }
   .bar-track{ flex:1; height:8px; background: var(--line-soft); border-radius:4px; overflow:hidden; }
   .bar-fill{ height:100%; width:0%; border-radius:4px; transition: width 1s cubic-bezier(.2,.8,.2,1); }
   .bar-fill.before{ background: var(--accent); }
@@ -312,8 +331,8 @@
   }
   .fix-panel.show{ display:block; }
   .fix-panel ol{ padding-inline-start: 20px; font-size:13.5px; line-height:2; color: var(--text); }
-  .fix-panel .fix-head{ font-size:11px; color: var(--accent); margin-bottom:10px; font-family:'IBM Plex Mono',monospace; direction:ltr; }
-  .conn-note{ font-size:11.5px; color: var(--text-muted); margin-top:10px; }
+  .fix-panel .fix-head{ font-size:12px; color: var(--accent); margin-bottom:10px; font-family:'IBM Plex Mono',monospace; direction:ltr; }
+  .conn-note{ font-size:12px; color: var(--text-muted); margin-top:10px; }
 
   /* ================= LANDING / PREMIUM OVERHAUL ================= */
   html{ scroll-behavior: smooth; }
@@ -352,7 +371,7 @@
     background: var(--surface); padding: 14px 12px; text-align:center;
   }
   .stat-chip .num{ font-family:'IBM Plex Mono',monospace; direction:ltr; font-size: 20px; font-weight:700; color: var(--accent); }
-  .stat-chip .lbl{ font-size: 11px; color: var(--text-muted); margin-top:4px; }
+  .stat-chip .lbl{ font-size:12px; color: var(--text-muted); margin-top:4px; }
 
   .landing-section{ margin-bottom: 40px; }
   .landing-h2{ font-size: 19px; font-weight:700; margin-bottom: 6px; }
@@ -370,7 +389,7 @@
     display:flex; align-items:center; justify-content:center;
     font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:13px;
   }
-  .step-card h4{ font-size: 14.5px; margin-bottom:4px; }
+  .step-card h4, .step-card h3{ font-size: 14.5px; margin-bottom:4px; }
   .step-card p{ font-size: 12.5px; color: var(--text-muted); }
 
   .compare-table{
@@ -380,7 +399,7 @@
   .compare-table th, .compare-table td{
     padding: 11px 10px; border-bottom:1px solid var(--line-soft); text-align:center;
   }
-  .compare-table th{ background: var(--surface-alt); font-size:11.5px; color:var(--text-muted); font-weight:600; }
+  .compare-table th{ background: var(--surface-alt); font-size:12px; color:var(--text-muted); font-weight:600; }
   .compare-table td:first-child, .compare-table th:first-child{ text-align: start; color: var(--text); font-weight:600; }
   .compare-table tr:last-child td{ border-bottom:none; }
   .compare-table .yes{ color: var(--accent); font-weight:700; }
@@ -393,13 +412,14 @@
   }
   .acc-item + .acc-item{ border-top:1px solid var(--line-soft); }
   .acc-head{
-    display:flex; align-items:center; justify-content:space-between;
-    padding: 14px 16px; cursor:pointer; font-size:13.5px; font-weight:600;
+    display:flex; align-items:center; justify-content:space-between; width:100%;
+    padding: 14px 16px; min-height:48px; cursor:pointer; font-size:13.5px; font-weight:600;
+    background:none; border:none; color:inherit; font-family:inherit; text-align:start;
   }
   .acc-head .chev{ transition: transform .25s ease; color: var(--text-muted); }
   .acc-item.open .acc-head .chev{ transform: rotate(180deg); }
-  .acc-body{ max-height:0; overflow:hidden; transition: max-height .3s ease; }
-  .acc-item.open .acc-body{ max-height: 400px; }
+  .acc-body{ max-height:0; overflow:hidden; visibility:hidden; transition: max-height .3s ease, visibility 0s .3s; }
+  .acc-item.open .acc-body{ max-height: 400px; visibility:visible; transition: max-height .3s ease; }
   .acc-body-in{ padding: 0 16px 16px; font-size:12.5px; color: var(--text-muted); line-height:1.8; }
   .acc-body-in code{ font-family:'IBM Plex Mono',monospace; direction:ltr; unicode-bidi:isolate; color:var(--accent); }
 
@@ -411,7 +431,7 @@
   .cta-band p{ font-size:13px; color:var(--text-muted); margin-bottom:16px; }
 
   .confidence-badge{
-    display:inline-flex; align-items:center; gap:6px; font-size:11.5px;
+    display:inline-flex; align-items:center; gap:6px; font-size:12px;
     padding: 4px 10px; border-radius: 20px; margin-inline-start:8px;
   }
   .confidence-badge.high{ background: var(--accent-dim); color: var(--accent); }
@@ -428,7 +448,7 @@
   .nav-tab{
     background:none; border:none; color: var(--text-muted);
     font-family: inherit; font-size: 13px; font-weight:600;
-    padding: 10px 4px; cursor:pointer; position:relative;
+    padding: 12px 4px; min-height:44px; cursor:pointer; position:relative;
   }
   .nav-tab.active{ color: var(--accent); }
   .nav-tab.active::after{
@@ -446,7 +466,7 @@
   .plan-card.highlight-plan{ border-color: var(--accent-dim); background: linear-gradient(180deg, rgba(94,234,212,0.06), transparent); }
   .plan-badge{
     position:absolute; top:-11px; inset-inline-start:20px;
-    background: var(--accent); color:#0A1512; font-size:11px; font-weight:700;
+    background: var(--accent); color:#0A1512; font-size:12px; font-weight:700;
     padding: 3px 12px; border-radius: 20px;
   }
   .plan-name{ font-size:14px; color: var(--text-muted); margin-bottom:8px; font-weight:600; }
@@ -461,17 +481,12 @@
   }
   .vpn-toggle-title{ font-size:13.5px; font-weight:600; color:var(--text); }
   .vpn-toggle-status{ font-size:12px; color:var(--text-muted); margin-top:2px; }
-  .vpn-switch-track{
-    position:relative; display:inline-block; width:46px; height:26px; flex-shrink:0;
-    background: var(--line); border-radius:999px; transition: background .2s;
-  }
-  .vpn-switch-track.on{ background: var(--accent); }
-  .vpn-switch-track.pending{ background: var(--warn-dim); }
-  .vpn-switch-thumb{
-    position:absolute; top:3px; right:3px; width:20px; height:20px;
-    background:#fff; border-radius:50%; transition: right .2s;
-  }
-  .vpn-switch-track.on .vpn-switch-thumb{ right:23px; }
+  .vpn-card-side{ display:flex; align-items:center; gap:10px; flex-shrink:0; color:var(--text-muted); }
+  .vpn-switch-track{ display:inline-block; width:10px; height:10px; border-radius:50%; background: var(--line); transition: background .2s; }
+  .vpn-switch-track.on{ background: var(--accent); box-shadow:0 0 8px var(--accent); }
+  .vpn-switch-track.pending{ background: var(--warn); }
+  .vpn-switch-thumb{ display:none; }
+  .vpn-go{ font-size:22px; line-height:1; }
 
   .install-banner{
     display:none; align-items:center; justify-content:space-between; gap:10px;
@@ -511,7 +526,7 @@
   .oman-flag{ font-size:18px; line-height:1; }
   .oman-card-title{ font-weight:700; font-size:14.5px; }
   .oman-badge{
-    margin-inline-start:auto; font-size:11px; padding:3px 10px; border-radius:20px; flex-shrink:0;
+    margin-inline-start:auto; font-size:12px; padding:3px 10px; border-radius:20px; flex-shrink:0;
   }
   .oman-badge.ok{ background: var(--accent-dim); color: var(--accent); }
   .oman-badge.warn{ background: var(--warn-dim); color: var(--warn); }
@@ -542,8 +557,8 @@
     background: var(--surface); border:2px solid var(--accent-dim);
   }
   .roadmap-phase.now::before{ border-color: var(--accent); background: var(--accent); box-shadow:0 0 6px var(--accent); }
-  .roadmap-phase-label{ font-size:11px; color: var(--accent); font-family:'IBM Plex Mono',monospace; direction:ltr; margin-bottom:4px; }
-  .roadmap-phase h4{ font-size:15px; margin-bottom:6px; }
+  .roadmap-phase-label{ font-size:12px; color: var(--accent); font-family:'IBM Plex Mono',monospace; direction:ltr; margin-bottom:4px; }
+  .roadmap-phase h4, .roadmap-phase h3, .roadmap-phase h2{ font-size:15px; margin-bottom:6px; }
   .roadmap-phase ul{ padding-inline-start:18px; font-size:13px; color: var(--text-muted); line-height:1.9; }
 
   /* ---------- PWA / VPN ONBOARDING ---------- */
@@ -569,15 +584,49 @@
   .vpn-more summary{ cursor:pointer; font-size:12.5px; color:var(--text-muted); }
   .vpn-more img{ max-width:200px; border-radius:8px; margin:12px auto 0; display:block; }
   .vpn-wait{ text-align:center; padding:6px 0; }
+
+  /* ---------- ACCESSIBILITY / AUDIT FIXES ---------- */
+  .sr-only{ position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+  .skip-link{ position:absolute; inset-inline-start:12px; top:-60px; z-index:100; background:var(--accent); color:#0A1512; padding:10px 16px; border-radius:var(--radius); font-weight:700; text-decoration:none; }
+  .skip-link:focus{ top:12px; }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  main:focus{ outline:none; }
+  .trial-banner{
+    background: var(--warn-dim); border:1px solid var(--warn); border-radius: var(--radius);
+    color: var(--text); font-size:12.5px; line-height:1.8; padding:10px 14px; margin-bottom:18px;
+  }
+  .trial-banner strong{ color: var(--warn); }
+  .home-title{ margin-top:4px; }
+  /* subscription request form */
+  .req-fields{ display:grid; gap:12px; max-width:440px; margin:14px auto 14px; text-align:start; }
+  .req-fields label{ display:block; font-size:13px; color:var(--text-muted); margin-bottom:5px; }
+  .req-input{
+    width:100%; background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius);
+    padding:12px 14px; min-height:46px; color:var(--text); font-family:inherit; font-size:16px;
+  }
+  .req-input[aria-invalid="true"]{ border-color: var(--danger); }
+  .req-input[dir="ltr"]{ text-align:left; }
+  .btn-block{ width:100%; max-width:440px; margin:0 auto; display:flex; }
+  .btn:disabled{ opacity:.6; cursor:wait; }
+  .consent{ display:flex; gap:10px; align-items:flex-start; justify-content:center; font-size:12.5px; color:var(--text-muted); margin-top:14px; line-height:1.8; cursor:pointer; text-align:start; max-width:440px; margin-inline:auto; }
+  .consent input{ margin-top:5px; width:20px; height:20px; flex-shrink:0; }
+  .consent a{ color:var(--accent); text-decoration:underline; }
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+    .radar-sweep-g, .radar-blip, .pulse-line{ animation:none !important; }
+  }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
 
 <div class="bg-grid"></div>
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 
 <div class="wrap">
+
+  <div class="trial-banner" role="note"><strong>نسخة تجريبية.</strong> فحص الشبكة يعمل بالكامل. أما NoviNet VPN فلم يُطلق رسميًا بعد وبانتظار الاعتمادات اللازمة؛ الطلبات هنا لتسجيل الاهتمام، والتفعيل يكون بعد الموافقة.</div>
 
   <header>
     <div class="brand">
@@ -586,18 +635,18 @@
       </div>
       <div>
         <div class="brand-name">NoviNet</div>
-        <div class="brand-sub">network.diagnostics</div>
+        <div class="brand-sub">تشخيص الشبكة</div>
       </div>
     </div>
-    <div class="tag">LIVE v2.1</div>
+    <div class="tag">نسخة تجريبية</div>
   </header>
 
-  <div class="nav-tabs" id="navTabs">
-    <button class="nav-tab active" data-target="view-home" onclick="showView('view-home')">الرئيسية</button>
+  <nav class="nav-tabs" id="navTabs" aria-label="التنقل الرئيسي">
+    <button class="nav-tab active" aria-current="page" data-target="view-home" onclick="showView('view-home')">الرئيسية</button>
     <button class="nav-tab" data-target="view-how" onclick="showView('view-how')">كيف تعمل؟</button>
     <button class="nav-tab" data-target="view-vpn" onclick="showView('view-vpn')">NoviNet VPN</button>
     <button class="nav-tab" data-target="view-roadmap" onclick="showView('view-roadmap')">خارطة الطريق</button>
-  </div>
+  </nav>
 
   <div class="install-banner" id="installBanner">
     <span>📲 ثبّت NoviNet كتطبيق على جوالك</span>
@@ -612,19 +661,15 @@
     افتح الموقع المنشور على الإنترنت بدل الملف المحلي.
   </div>
 
+  <main id="main" tabindex="-1">
   <!-- VIEW 1: HOME -->
   <div class="view active" id="view-home">
 
-    <div class="vpn-toggle-card glass" id="homeVpnToggle" onclick="showView('view-vpn')" role="button" tabindex="0" onkeydown="if(event.key==='Enter') showView('view-vpn')">
-      <div>
-        <div class="vpn-toggle-title">NoviNet VPN</div>
-        <div class="vpn-toggle-status" id="homeVpnStatusText">غير مفعّل — اضغط للاشتراك (2 ر.ع/شهريًا)</div>
-      </div>
-      <span class="vpn-switch-track" id="homeVpnSwitchTrack"><span class="vpn-switch-thumb"></span></span>
-    </div>
+    <h1 class="hero-title home-title">افحص جودة اتصالك قبل الـVPN وبعده</h1>
+    <p class="lede">NoviNet يقيس السرعة والـPing والـJitter والـDNS وفقدان الحزم من متصفحك مباشرة، ويوضح لك الفرق بالأرقام.</p>
 
     <div class="btn-row" style="margin-bottom:34px; margin-top:10px;">
-      <button class="btn" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'})">جرّب القياس الآن ↓</button>
+      <button class="btn" onclick="document.getElementById('tool').scrollIntoView({behavior: SMOOTH()})">جرّب القياس الآن ↓</button>
       <button class="btn btn-ghost" onclick="showView('view-how')">كيف تعمل؟</button>
     </div>
 
@@ -657,9 +702,17 @@
       </div>
     </section>
 
+    <div class="vpn-toggle-card glass" id="homeVpnToggle" onclick="showView('view-vpn')" role="button" tabindex="0" aria-label="NoviNet VPN — نسخة تجريبية" onkeydown="if(event.key==='Enter' || event.key===' '){ event.preventDefault(); showView('view-vpn'); }">
+      <div>
+        <div class="vpn-toggle-title">NoviNet VPN</div>
+        <div class="vpn-toggle-status" id="homeVpnStatusText">نسخة تجريبية — اضغط لتسجيل اهتمامك</div>
+      </div>
+      <span class="vpn-card-side"><span class="vpn-switch-track" id="homeVpnSwitchTrack" aria-hidden="true"><span class="vpn-switch-thumb"></span></span><span class="vpn-go" aria-hidden="true">‹</span></span>
+    </div>
+
     <div class="history">
       <div class="history-head">
-        <div class="section-label" style="margin-bottom:0;">الفحوصات السابقة</div>
+        <h2 class="section-label" style="margin-bottom:0;">الفحوصات السابقة</h2>
         <button class="link-btn" onclick="clearHistory()">مسح السجل</button>
       </div>
       <div id="historyList"></div>
@@ -670,7 +723,7 @@
   <div class="view" id="view-how">
 
     <section class="landing-section">
-      <div class="landing-h2">هل NoviNet بديل عن الـVPN؟</div>
+      <h1 class="landing-h2">هل NoviNet بديل عن الـVPN؟</h1>
       <div class="glass" style="border-radius:var(--radius); padding:18px 20px;">
         <p style="font-size:13.5px; color:var(--text); line-height:1.9; margin-bottom:10px;">
           <b style="color:var(--accent);">لا.</b> NoviNet ما يشفّر بياناتك ولا يوفر سيرفرات ولا يخفي IP — هذا شغل الـVPN نفسه. NoviNet يعمل <b>جنب</b> أي VPN يُستخدم فعلًا (أي تطبيق)، ويقيس أداءه، يشخّص مشاكله، ويقترح حلول.
@@ -685,26 +738,26 @@
     </section>
 
     <section class="landing-section" id="how">
-      <div class="landing-h2">كيف تعمل NoviNet؟</div>
-      <p class="landing-sub">3 خطوات بسيطة، كل الأرقام حقيقية من جهازك مباشرة — بدون سيرفرات خارجية تجمع بياناتك.</p>
+      <h2 class="landing-h2">كيف تعمل NoviNet؟</h2>
+      <p class="landing-sub">3 خطوات بسيطة، وكل الأرقام تُقاس من متصفحك مباشرة. نتائجك تُحفظ على جهازك فقط، لكن القياس نفسه يتصل بـCloudflare (السرعة) وGeoJS (الموقع التقريبي)، وهما يريان عنوان الـIP كأي موقع تزوره.</p>
       <div class="steps-grid">
         <div class="step-card glass">
           <div class="step-num">1</div>
-          <div><h4>قياس قبل الـVPN</h4><p>نقيس السرعة، الـPing، الـJitter، الـDNS، وفقدان الحزم من متصفحك فعليًا — قياس واحد يمثل حالة شبكتك الطبيعية.</p></div>
+          <div><h3>قياس قبل الـVPN</h3><p>نقيس السرعة، الـPing، الـJitter، الـDNS، وفقدان الحزم من متصفحك فعليًا — قياس واحد يمثل حالة شبكتك الطبيعية.</p></div>
         </div>
         <div class="step-card glass">
           <div class="step-num">2</div>
-          <div><h4>فعّل VPN وقِس مرة ثانية</h4><p>نفس القياسات بالضبط، بعد تفعيل الـVPN يدويًا — نفس الشروط، نفس الخادم، فرق واحد فقط.</p></div>
+          <div><h3>فعّل VPN وقِس مرة ثانية</h3><p>نفس القياسات بالضبط، بعد تفعيل الـVPN يدويًا — نفس الشروط، نفس الخادم، فرق واحد فقط.</p></div>
         </div>
         <div class="step-card glass">
           <div class="step-num">3</div>
-          <div><h4>تشخيص + خطوات إصلاح</h4><p>نحلل الفروقات بمنطق قواعد واضح (لا تخمين)، ونعطيك السبب الأرجح وخطوات عملية تناسب حالتك بالضبط.</p></div>
+          <div><h3>تشخيص + خطوات إصلاح</h3><p>نحلل الفروقات بمنطق قواعد واضح (لا تخمين)، ونعطيك السبب الأرجح وخطوات عملية تناسب حالتك بالضبط.</p></div>
         </div>
       </div>
     </section>
 
     <section class="landing-section">
-      <div class="landing-h2">ليش NoviNet مختلف؟</div>
+      <h2 class="landing-h2">ليش NoviNet مختلف؟</h2>
       <p class="landing-sub">أغلب أدوات فحص السرعة تعطيك رقم وبس. NoviNet يقارن، يشخّص، ويقترح حلول.</p>
       <table class="compare-table">
         <tr><th>الميزة</th><th>فحص سرعة عادي</th><th>تجربة يدوية</th><th class="highlight">NoviNet</th></tr>
@@ -718,37 +771,37 @@
     </section>
 
     <section class="landing-section">
-      <div class="landing-h2">منهجية القياس — بدون صناديق سوداء</div>
+      <h2 class="landing-h2">منهجية القياس — بدون صناديق سوداء</h2>
       <p class="landing-sub">كل رقم تشوفه له تفسير واضح. اضغط لتفاصيل كل مقياس:</p>
       <div class="accordion" id="methodAccordion">
         <div class="acc-item">
-          <div class="acc-head" onclick="toggleAccordion(this)"><span>زمن الاستجابة (Ping) والـJitter</span><span class="chev">⌄</span></div>
-          <div class="acc-body"><div class="acc-body-in">نرسل 8 طلبات شبكة فعلية لسيرفرات <code>speed.cloudflare.com</code>، نتجاهل أول طلب (فيه انحياز معروف بسبب إنشاء الاتصال لأول مرة)، ونحسب الوسيط (median) من الباقي — أدق من المتوسط لأنه لا يتأثر بقيمة شاذة واحدة. الـJitter = متوسط التفاوت بين القياسات المتتالية.</div></div>
+          <button type="button" class="acc-head" id="acc-h1" aria-expanded="false" aria-controls="acc-b1" onclick="toggleAccordion(this)"><span>زمن الاستجابة (Ping) والـJitter</span><span class="chev" aria-hidden="true">⌄</span></button>
+          <div class="acc-body" id="acc-b1" role="region" aria-labelledby="acc-h1"><div class="acc-body-in">نرسل 8 طلبات شبكة فعلية لسيرفرات <code>speed.cloudflare.com</code>، نتجاهل أول طلب (فيه انحياز معروف بسبب إنشاء الاتصال لأول مرة)، ونحسب الوسيط (median) من الباقي — أدق من المتوسط لأنه لا يتأثر بقيمة شاذة واحدة. الـJitter = متوسط التفاوت بين القياسات المتتالية.</div></div>
         </div>
         <div class="acc-item">
-          <div class="acc-head" onclick="toggleAccordion(this)"><span>سرعة التحميل</span><span class="chev">⌄</span></div>
-          <div class="acc-body"><div class="acc-body-in">نفتح اتصالين متوازيين لتحميل بيانات حقيقية (3 ميجابايت لكل اتصال) — نفس الطريقة اللي تستخدمها أدوات القياس الاحترافية، لأن اتصال واحد بس يقلل تقدير السرعة الحقيقية بسبب حدود TCP.</div></div>
+          <button type="button" class="acc-head" id="acc-h2" aria-expanded="false" aria-controls="acc-b2" onclick="toggleAccordion(this)"><span>سرعة التحميل</span><span class="chev" aria-hidden="true">⌄</span></button>
+          <div class="acc-body" id="acc-b2" role="region" aria-labelledby="acc-h2"><div class="acc-body-in">نفتح اتصالين متوازيين لتحميل بيانات حقيقية (3 ميجابايت لكل اتصال) — نفس الطريقة اللي تستخدمها أدوات القياس الاحترافية، لأن اتصال واحد بس يقلل تقدير السرعة الحقيقية بسبب حدود TCP.</div></div>
         </div>
         <div class="acc-item">
-          <div class="acc-head" onclick="toggleAccordion(this)"><span>فقدان الحزم (Packet Loss)</span><span class="chev">⌄</span></div>
-          <div class="acc-body"><div class="acc-body-in">12 طلب HTTP بمهلة قصيرة (900ms)، ونحسب نسبة الطلبات اللي فشلت أو تجاوزت المهلة. هذا تقدير عبر HTTP، وليس ICMP الحقيقي (بروتوكول الـPing التقليدي) لأن المتصفح ما يسمح بإرسال ICMP مباشرة — نوضح هذا بصراحة بدل الادعاء بدقة غير موجودة.</div></div>
+          <button type="button" class="acc-head" id="acc-h3" aria-expanded="false" aria-controls="acc-b3" onclick="toggleAccordion(this)"><span>فقدان الحزم (Packet Loss)</span><span class="chev" aria-hidden="true">⌄</span></button>
+          <div class="acc-body" id="acc-b3" role="region" aria-labelledby="acc-h3"><div class="acc-body-in">12 طلب HTTP بمهلة قصيرة (900ms)، ونحسب نسبة الطلبات اللي فشلت أو تجاوزت المهلة. هذا تقدير عبر HTTP، وليس ICMP الحقيقي (بروتوكول الـPing التقليدي) لأن المتصفح ما يسمح بإرسال ICMP مباشرة — نوضح هذا بصراحة بدل الادعاء بدقة غير موجودة.</div></div>
         </div>
         <div class="acc-item">
-          <div class="acc-head" onclick="toggleAccordion(this)"><span>مؤشر دقة القياس</span><span class="chev">⌄</span></div>
-          <div class="acc-body"><div class="acc-body-in">نحسب معامل التفاوت (Coefficient of Variation) بين عينات الـPing. لو التفاوت منخفض، شبكتك مستقرة وقت القياس والنتيجة موثوقة. لو مرتفع، نوضح ذلك بدل ما نعرض رقم واحد كأنه دقيق 100%.</div></div>
+          <button type="button" class="acc-head" id="acc-h4" aria-expanded="false" aria-controls="acc-b4" onclick="toggleAccordion(this)"><span>مؤشر دقة القياس</span><span class="chev" aria-hidden="true">⌄</span></button>
+          <div class="acc-body" id="acc-b4" role="region" aria-labelledby="acc-h4"><div class="acc-body-in">نحسب معامل التفاوت (Coefficient of Variation) بين عينات الـPing. لو التفاوت منخفض، شبكتك مستقرة وقت القياس والنتيجة موثوقة. لو مرتفع، نوضح ذلك بدل ما نعرض رقم واحد كأنه دقيق 100%.</div></div>
         </div>
       </div>
     </section>
 
     <div class="cta-band glass">
       <p>جاهز تبدأ؟ القياس الأول يستغرق أقل من 15 ثانية.</p>
-      <button class="btn" onclick="showView('view-home'); setTimeout(() => document.getElementById('tool').scrollIntoView({behavior:'smooth'}), 50)">ابدأ الفحص ↓</button>
+      <button class="btn" onclick="showView('view-home'); setTimeout(() => document.getElementById('tool').scrollIntoView({behavior: SMOOTH()}), 50)">ابدأ الفحص ↓</button>
     </div>
   </div>
 
   <!-- VIEW 1B-2: NOVINET VPN (REAL VPN PRODUCT) -->
   <div class="view" id="view-vpn">
-    <div class="eyebrow"><span class="dot"></span>اشتراك شهري — سيرفر حقيقي</div>
+    <div class="eyebrow"><span class="dot"></span>نسخة تجريبية — تسجيل اهتمام</div>
     <h1 class="hero-title">NoviNet <span class="grad">VPN</span></h1>
     <p class="lede">سيرفر VPN حقيقي، بروتوكول WireGuard، مستضاف فعليًا داخل مسقط — عُمان. مو محاكاة ومو نموذج تصميمي.</p>
 
@@ -761,59 +814,59 @@
     </section>
 
     <section class="landing-section">
-      <div class="landing-h2">وش يميزه؟</div>
+      <h2 class="landing-h2">وش يميزه؟</h2>
       <div class="steps-grid">
         <div class="step-card glass">
           <div class="step-num">🇴🇲</div>
-          <div><h4>سيرفر داخل عُمان فعليًا</h4><p>مو سيرفر بعيد نسمّيه "عُماني" — البنية التحتية مستضافة فعليًا في مسقط، فالمسافة قصيرة وزمن الاستجابة عادةً أقل للمستخدمين داخل عُمان مقارنة بسيرفرات خارجية.</p></div>
+          <div><h3>سيرفر داخل عُمان فعليًا</h3><p>مو سيرفر بعيد نسمّيه "عُماني" — البنية التحتية مستضافة فعليًا في مسقط، فالمسافة قصيرة وزمن الاستجابة عادةً أقل للمستخدمين داخل عُمان مقارنة بسيرفرات خارجية.</p></div>
         </div>
         <div class="step-card glass">
           <div class="step-num">🔒</div>
-          <div><h4>WireGuard — المعيار الحديث</h4><p>بروتوكول تشفير مفتوح المصدر ومُدقق أمنيًا، تستخدمه أغلب شركات VPN الكبرى اليوم بدل البروتوكولات القديمة الأبطأ.</p></div>
+          <div><h3>WireGuard — المعيار الحديث</h3><p>بروتوكول تشفير مفتوح المصدر ومُدقق أمنيًا، وتعتمده اليوم شركات VPN كثيرة بدل البروتوكولات القديمة الأبطأ.</p></div>
         </div>
         <div class="step-card glass">
           <div class="step-num">🛡️</div>
-          <div><h4>تشديد أمني حقيقي</h4><p>فايروول مفعّل، حماية من محاولات الاختراق الآلية (fail2ban)، وتحديثات أمان تلقائية على مستوى السيرفر.</p></div>
+          <div><h3>حماية أساسية للسيرفر</h3><p>جدار ناري مفعّل، وfail2ban ضد محاولات الدخول الآلية، وتحديثات أمان تلقائية على مستوى السيرفر.</p></div>
         </div>
       </div>
     </section>
 
     <section class="landing-section">
-      <div class="landing-h2">الاشتراك</div>
+      <h2 class="landing-h2">الاشتراك</h2>
       <div class="plans-grid" style="max-width:340px; margin:0 auto;">
         <div class="plan-card glass highlight-plan">
           <div class="plan-badge">وصول كامل</div>
           <div class="plan-name">NoviNet VPN</div>
           <div class="plan-price">2 ر.ع<span>/شهريًا</span></div>
           <ul class="plan-features">
-            <li>✓ اتصال غير محدود بسيرفر مسقط</li>
+            <li>✓ اتصال بسيرفر في مسقط</li>
             <li>✓ بروتوكول WireGuard مشفّر</li>
-            <li>✓ تشديد أمني وتحديثات تلقائية</li>
-            <li>✓ دعم عبر الموقع مباشرة</li>
+            <li>✓ جدار ناري وتحديثات أمان تلقائية</li>
+            <li>✓ مساعدة في الإعداد والتفعيل</li>
           </ul>
         </div>
       </div>
-      <p class="landing-sub" style="text-align:center;">التفعيل بعد تأكيد الاشتراك — نتواصل لإتمام الدفع وتفعيل الوصول خلال وقت قصير.</p>
+      <p class="landing-sub" style="text-align:center;">الخدمة تجريبية ولم تُطلق رسميًا بعد. لا يتم أي دفع عبر الموقع؛ نتواصل معك بعد مراجعة الطلب، ويكون التفعيل بعد الموافقة.</p>
     </section>
 
-    <div id="vpnRequestForm" class="cta-band glass" style="margin-top:20px;">
-      <p>تبي تشترك بـNoviNet VPN؟ اطلب الاشتراك وبنراجع طلبك بسرعة.</p>
-      <div style="display:flex; gap:8px; max-width:440px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
-        <input id="vpnReqName" type="text" placeholder="الاسم" style="flex:1; min-width:140px; background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius); padding:11px 14px; color:var(--text); font-family:inherit; font-size:13.5px;">
-        <input id="vpnReqEmail" type="email" placeholder="you@example.com" style="flex:1; min-width:180px; background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius); padding:11px 14px; color:var(--text); font-family:inherit; font-size:13.5px;">
-        <input id="vpnReqPhone" type="tel" placeholder="رقم الجوال (واتساب يفضّل)" style="flex:1; min-width:160px; background:var(--surface-alt); border:1px solid var(--line); border-radius:var(--radius); padding:11px 14px; color:var(--text); font-family:inherit; font-size:13.5px;">
-        <button class="btn" onclick="requestVpnAccess()">طلب الاشتراك</button>
+    <form id="vpnRequestForm" class="cta-band glass" style="margin-top:20px;" novalidate onsubmit="event.preventDefault(); requestVpnAccess();">
+      <p>تبي تسجّل طلب اشتراك؟ أرسل بياناتك وبنراجع الطلب ونتواصل معك.</p>
+      <div class="req-fields">
+        <div><label for="vpnReqName">الاسم</label><input class="req-input" id="vpnReqName" name="name" type="text" autocomplete="name" maxlength="60" required></div>
+        <div><label for="vpnReqEmail">البريد الإلكتروني</label><input class="req-input" id="vpnReqEmail" name="email" type="email" autocomplete="email" inputmode="email" dir="ltr" placeholder="you@example.com" maxlength="254" required></div>
+        <div><label for="vpnReqPhone">رقم الجوال (واتساب يفضّل)</label><input class="req-input" id="vpnReqPhone" name="tel" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" maxlength="30" required></div>
       </div>
-      <label style="display:flex; gap:8px; align-items:flex-start; justify-content:center; font-size:12px; color:var(--text-muted); margin-top:12px; line-height:1.7; cursor:pointer;">
-        <input id="vpnReqConsent" type="checkbox" style="margin-top:4px;">
-        <span>أوافق على استخدام الاسم والإيميل والجوال فقط للتواصل معي بخصوص الاشتراك والدفع والتفعيل. ما نبيع بياناتك ولا نشاركها مع أي طرف ثالث، وتقدر تطلب حذفها بأي وقت.</span>
+      <button class="btn btn-block" id="vpnReqSubmit" type="submit">إرسال الطلب</button>
+      <label class="consent">
+        <input id="vpnReqConsent" type="checkbox" required>
+        <span>أوافق على استخدام الاسم والإيميل والجوال للتواصل معي بخصوص الطلب والدفع والتفعيل، وعلى إرسال تنبيه بطلبي لفريق NoviNet عبر تيليجرام. لا نبيع بياناتك ولا نستخدمها للتسويق، وتقدر تطلب حذفها بأي وقت. التفاصيل في <a href="privacy.html" target="_blank" rel="noopener">الخصوصية والشروط</a>.</span>
       </label>
-      <div id="vpnReqMsg" style="font-size:12px; color:var(--accent); margin-top:10px; display:none;"></div>
+      <div id="vpnReqMsg" role="status" aria-live="polite" style="font-size:13px; color:var(--accent); margin-top:12px; display:none;"></div>
       <div id="vpnReqResult" style="margin-top:16px; display:none;"></div>
-    </div>
+    </form>
 
     <div id="contactBox" class="glass" style="display:none; border-radius:var(--radius); padding:16px 20px; margin-top:16px; text-align:center; font-size:13px; line-height:2;">
-      <div class="landing-h2" style="font-size:16px; margin-bottom:6px;">تواصل معنا</div>
+      <h2 class="landing-h2" style="font-size:16px; margin-bottom:6px;">تواصل معنا</h2>
       <div id="contactLines"></div>
     </div>
   </div>
@@ -831,7 +884,7 @@
     <div class="roadmap-track">
       <div class="roadmap-phase now">
         <div class="roadmap-phase-label">NOW — MVP</div>
-        <h4>النموذج الأولي (شغّال الحين)</h4>
+        <h2>النموذج الأولي (شغّال الحين)</h2>
         <ul>
           <li>قياس حقيقي قبل/بعد الـVPN (سرعة، Ping، Jitter، DNS، فقدان حزم)</li>
           <li>تشخيص ذكي بقواعد واضحة + تقييم عام (Score)</li>
@@ -842,7 +895,7 @@
       </div>
       <div class="roadmap-phase">
         <div class="roadmap-phase-label">NEXT — 3–6 أشهر</div>
-        <h4>تعميق الذكاء والوصول</h4>
+        <h2>تعميق الذكاء والوصول</h2>
         <ul>
           <li>تحليل بالذكاء الاصطناعي الحقيقي عبر خادم آمن (بدل القواعد الثابتة فقط)</li>
           <li>تطبيق قابل للتثبيت (PWA) ثم تطبيق جوال أصلي (iOS / Android)</li>
@@ -852,7 +905,7 @@
       </div>
       <div class="roadmap-phase">
         <div class="roadmap-phase-label">LATER — 6–12 شهر</div>
-        <h4>شراكات وتوسع محلي</h4>
+        <h2>شراكات وتوسع محلي</h2>
         <ul>
           <li>شراكة B2B مع مزودي VPN ومزودي الإنترنت داخل عُمان</li>
           <li>لوحة تحكم للشركات لمراقبة أداء موظفيها عن بعد</li>
@@ -861,7 +914,7 @@
       </div>
       <div class="roadmap-phase">
         <div class="roadmap-phase-label">VISION — سنة فأكثر</div>
-        <h4>توسع إقليمي</h4>
+        <h2>توسع إقليمي</h2>
         <ul>
           <li>التوسع لدول الخليج المجاورة بنفس منهجية القياس الشفافة</li>
           <li>SDK يُدمج مباشرة داخل تطبيقات VPN أخرى كطبقة تشخيص جاهزة</li>
@@ -1074,8 +1127,11 @@
     </div>
   </div>
 
+  </main>
+
   <footer>
-    <span>v2.1 — real measurement + transparent methodology</span>
+    <span>قياس حقيقي ومنهجية شفافة</span>
+    <a href="privacy.html">الخصوصية والشروط</a>
     <span id="clock"></span>
   </footer>
 
@@ -1084,19 +1140,22 @@
 <script>
 const NAV_VIEWS = ['view-home', 'view-how', 'view-vpn', 'view-roadmap'];
 
+const SMOOTH = () => (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) ? 'auto' : 'smooth';
+
 function showView(id){
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   const nav = document.getElementById('navTabs');
   if (NAV_VIEWS.includes(id)) {
     nav.style.display = 'flex';
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.target === id));
+    document.querySelectorAll('.nav-tab').forEach(t => { const on = t.dataset.target === id; t.classList.toggle('active', on); if (on) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current'); });
   } else {
     nav.style.display = 'none';
   }
   if (id === 'view-vpn') { try { checkVpnStatus(); } catch(e){} }
   if (id === 'view-home') { try { refreshHomeVpnToggle(); } catch(e){} }
   window.scrollTo({ top: 0, behavior: 'instant' });
+  try { document.getElementById('main').focus({ preventScroll: true }); } catch(e){}
 }
 
 // ===================== NOVINET VPN — REAL ACCESS REQUEST FLOW =====================
@@ -1106,10 +1165,10 @@ function showView(id){
 // picks it up automatically next time it checks this page.
 const NOVINET_VPN_API = 'https://130.94.80.163.nip.io';
 
-// ---- CONTACT INFO: fill these in and the "تواصل معنا" box appears automatically ----
-// Example: CONTACT_WHATSAPP = '+968XXXXXXXX'; CONTACT_EMAIL = 'support@example.com';
-const CONTACT_WHATSAPP = '';
-const CONTACT_EMAIL = '';
+// ---- CONTACT INFO: edit site-config.js and the "تواصل معنا" box appears automatically ----
+// (set them once in site-config.js — they also appear on the privacy page)
+const CONTACT_WHATSAPP = (window.NOVINET_SITE && window.NOVINET_SITE.whatsapp) || '';
+const CONTACT_EMAIL = (window.NOVINET_SITE && window.NOVINET_SITE.email) || '';
 
 function hasContact(){ return !!(CONTACT_WHATSAPP || CONTACT_EMAIL); }
 function renderContact(){
@@ -1148,7 +1207,7 @@ async function refreshHomeVpnToggle(){
   const id = getVpnRequestId();
   if (!id) {
     track.classList.remove('on', 'pending');
-    text.textContent = 'غير مفعّل — اضغط للاشتراك (2 ر.ع/شهريًا)';
+    text.textContent = 'نسخة تجريبية — اضغط لتسجيل اهتمامك';
     return;
   }
   try {
@@ -1163,47 +1222,76 @@ async function refreshHomeVpnToggle(){
       text.textContent = 'قيد المراجعة — بيتفعّل بعد تأكيد الاشتراك';
     } else if (data.status === 'rejected') {
       track.classList.remove('on', 'pending');
-      text.textContent = 'الطلب مرفوض — اضغط لإرسال طلب جديد';
+      text.textContent = 'ما قدرنا نفعّل هذا الطلب — اضغط للتفاصيل';
     } else if (data.status === 'expired') {
       track.classList.remove('on', 'pending');
-      text.textContent = 'انتهى الاشتراك — اضغط للتجديد';
+      text.textContent = 'انتهى الاشتراك — اضغط للتفاصيل';
     }
   } catch (e) { /* silent — network hiccup, will retry next visit */ }
 }
+
+// Arabic-Indic digits (٩١٢٣…) are what many Omani phones type — convert before checking.
+function toAsciiDigits(str){
+  return String(str).replace(/[٠-٩]/g, c => String(c.charCodeAt(0) - 0x0660)).replace(/[۰-۹]/g, c => String(c.charCodeAt(0) - 0x06F0));
+}
+const VPN_REQ_ERRORS = {
+  invalid_name: 'اكتب الاسم (حرفين على الأقل).',
+  invalid_email: 'اكتب إيميل صحيح.',
+  invalid_phone: 'اكتب رقم جوال صحيح.',
+  too_many_requests: 'وصلت محاولات كثيرة من هذي الشبكة. جرّب بعد ساعة.',
+  already_requested: 'هذا الإيميل عنده طلب مسجّل سابقًا. إذا كان طلبك أنت، افتح الموقع من نفس الجهاز اللي أرسلت منه الطلب عشان تشوف حالته، أو تواصل معنا.'
+};
 
 async function requestVpnAccess(){
   const nameInput = document.getElementById('vpnReqName');
   const emailInput = document.getElementById('vpnReqEmail');
   const phoneInput = document.getElementById('vpnReqPhone');
+  const consent = document.getElementById('vpnReqConsent');
+  const submit = document.getElementById('vpnReqSubmit');
   const msg = document.getElementById('vpnReqMsg');
   const name = nameInput.value.trim();
   const email = emailInput.value.trim();
-  const phone = (phoneInput ? phoneInput.value.trim() : '');
-  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const phone = phoneInput ? toAsciiDigits(phoneInput.value.trim()) : '';
+  const fail = (input, text) => {
+    [nameInput, emailInput, phoneInput].forEach(i => i && i.removeAttribute('aria-invalid'));
+    if (input) { input.setAttribute('aria-invalid', 'true'); input.focus(); }
+    msg.style.display = 'block'; msg.style.color = 'var(--danger)'; msg.textContent = text;
+  };
   msg.style.display = 'block';
-  if (name.length < 2) { msg.style.color = 'var(--danger)'; msg.textContent = 'اكتب الاسم.'; return; }
-  if (!isValidEmail) { msg.style.color = 'var(--danger)'; msg.textContent = 'اكتب إيميل صحيح.'; return; }
-  if (phone.replace(/[^0-9]/g, '').length < 7) { msg.style.color = 'var(--danger)'; msg.textContent = 'اكتب رقم جوال صحيح.'; return; }
-  const consent = document.getElementById('vpnReqConsent');
-  if (consent && !consent.checked) { msg.style.color = 'var(--danger)'; msg.textContent = 'لازم توافق على استخدام بياناتك للتواصل بخصوص الاشتراك.'; return; }
+  if (name.length < 2) return fail(nameInput, VPN_REQ_ERRORS.invalid_name);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail(emailInput, VPN_REQ_ERRORS.invalid_email);
+  const digits = phone.replace(/[^0-9]/g, '').length;
+  if (digits < 7 || digits > 16) return fail(phoneInput, VPN_REQ_ERRORS.invalid_phone);
+  if (consent && !consent.checked) return fail(consent, 'لازم توافق على استخدام بياناتك للتواصل بخصوص الطلب.');
+  [nameInput, emailInput, phoneInput].forEach(i => i && i.removeAttribute('aria-invalid'));
   msg.style.color = 'var(--text-muted)';
   msg.textContent = 'جاري الإرسال...';
+  if (submit) submit.disabled = true;
   try {
-    const res = await fetch(NOVINET_VPN_API + '/api/request', {
+    const res = await fetchT(NOVINET_VPN_API + '/api/request', 15000, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, phone })
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'request_failed');
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      msg.style.color = 'var(--danger)';
+      msg.textContent = VPN_REQ_ERRORS[data.error] || 'تعذّر إرسال الطلب حاليًا. جرّب مرة ثانية بعد شوي.';
+      if (data.error === 'already_requested' && getVpnRequestId()) checkVpnStatus();
+      return;
+    }
     setVpnRequestId(data.requestId);
     msg.style.color = 'var(--accent)';
-    msg.textContent = '✓ تم إرسال طلبك! بنراجعه ونتواصل لإتمام الاشتراك — ارجع لهذي الصفحة بعدين للتحقق.';
+    msg.textContent = '✓ تم إرسال طلبك! بنراجعه ونتواصل معك — ارجع لهذي الصفحة بعدين للتحقق من الحالة.';
     nameInput.value = ''; emailInput.value = ''; if (phoneInput) phoneInput.value = ''; if (consent) consent.checked = false;
     checkVpnStatus();
   } catch (e) {
     msg.style.color = 'var(--danger)';
-    msg.textContent = 'تعذّر إرسال الطلب حاليًا. جرّب مرة ثانية بعد شوي.';
+    msg.textContent = (e && e.message === 'timeout')
+      ? 'السيرفر تأخر بالرد. جرّب مرة ثانية بعد شوي.'
+      : 'تعذّر الاتصال بالسيرفر. تأكد من الإنترنت وجرّب مرة ثانية.';
+  } finally {
+    if (submit) submit.disabled = false;
   }
 }
 
@@ -1360,6 +1448,7 @@ function toggleAccordion(headEl){
   const wasOpen = item.classList.contains('open');
   item.parentElement.querySelectorAll('.acc-item').forEach(i => i.classList.remove('open'));
   if (!wasOpen) item.classList.add('open');
+  item.parentElement.querySelectorAll('.acc-head').forEach(h => h.setAttribute('aria-expanded', h.parentElement.classList.contains('open') ? 'true' : 'false'));
 }
 
 // ===================== REAL NETWORK MEASUREMENT =====================
