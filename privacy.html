@@ -112,18 +112,6 @@
   <h2>٨. تحديث هذي الصفحة</h2>
   <p>قد نحدّثها من وقت لآخر، وأي تغيير جوهري سيظهر هنا مع تاريخ التحديث.</p>
 </main>
-<script>
-(function(){
-  var el = document.getElementById('contactLine');
-  var c = window.NOVINET_SITE || {};
-  var parts = [];
-  if (c.whatsapp) parts.push('واتساب: <a href="https://wa.me/' + String(c.whatsapp).replace(/[^0-9]/g,'') + '" dir="ltr"></a>');
-  if (c.email) parts.push('الإيميل: <span dir="ltr"></span>');
-  if (!parts.length) { el.textContent = 'لم تُنشر وسيلة تواصل بعد لأن النسخة تجريبية؛ ستظهر هنا قبل الإطلاق الرسمي.'; return; }
-  el.innerHTML = parts.join('<br>');
-  var a = el.querySelector('a'); if (a) a.textContent = c.whatsapp;
-  var sp = el.querySelector('span'); if (sp) sp.textContent = c.email;
-})();
-</script>
+<script src="privacy.js"></script>
 </body>
 </html>
