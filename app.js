@@ -221,7 +221,8 @@ async function checkVpnStatus(){
     const res = await fetch(NOVINET_VPN_API + '/api/status/' + id);
     if (!res.ok) return;
     const data = await res.json();
-    if (data.status === 'approved' && data.config) {
+    if (data.status === 'approved' && data.config && !/^\s*(Pre|Post)(Up|Down)\s*=|^\s*SaveConfig\s*=|^\s*Table\s*=/mi.test(String(data.config))) {
+      // (a config with PostUp/PreUp/... would run commands as root in wg-quick on a computer: never offer one)
       stopVpnPoll();
       window.__novinetVpnConfig = data.config;
       resultBox.style.display = 'block';

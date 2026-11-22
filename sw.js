@@ -1,6 +1,6 @@
 // NoviNet service worker — app shell cache + offline fallback.
 // Bump VERSION on every deploy so users get the new files.
-const VERSION = 'novinet-v4';
+const VERSION = 'novinet-v5';
 const SHELL = ['./', './index.html', './privacy.html', './site-config.js', './app.js', './privacy.js', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon-48.png'];
 const NETWORK_WAIT_MS = 4000; // a stalled connection must not freeze the page: fall back to the cache
 
